@@ -1,0 +1,311 @@
+系统：ubuntu 12.04
+hadoop：Cloudera's Hadoop-0.20.2-cdh3u3
+java：oracle's jdk-6u31-x64、
+*******************************************************************************
+特别声明：
+	这个文档主要是对hadoop安装的每一步的配置意义做说明，用以帮助理解hadoop安装过程，只是一个最简单的hadoop的环境搭建过程
+	这个文档适合为试用hadoop或要搭建一个简单的hadoop环境的人群使用
+	由于在hadoop配置小节只是介绍了最基本的几项配置，有更多配置使用需求的的请参考官方文档或网络
+	由于我在本机配置，没有介绍 Secondary NameNode 的相关配置， Secondary NameNode 的相关配置请参考官方文档
+*******************************************************************************
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+| 【注：】
+|  此文写于2013年2、3月份，其中提到具体的地址等之类的东西，可能随着时间推移都会发生改变；
+|  而且中间的许多配置为了表现的更加直观，使用的是我在本机配置时的一些配置，可能在不同的机器上配置都不太一致（如host），主要是理解文中说明的为什么这么配置；
+|  另中间有些英文直接从cloudera官方摘抄过来，较简单也更直接，主要是比我描述的好多了，因此就不再用中文重复了
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+***************************
+hadoop-mapred部署：
+***************************
+"[*]"标记的部分为必须执行部分，"[a]"标记部分为通过apt-get安装必须执行部分，"[p]"标记部分为通过压缩包安装方式必不可少步骤
+-------------------------------------------------------------------------------
+1、环境准备：
+	1、[*] JAVA环境安装
+	2、[*] 配置集群的namenode和各个datanode之间可以通过host访问
+	3、ssh设置，使得hadoop的一键部署脚本可以方便使用
+2、Hadoop安装，两种方式任选其一，建议使用apt-get方式
+	1、[a] 通过apt-get方式安装
+	2、[p] 通过Hadoop压缩包方式安装
+3、Hadoop配置文件配置
+	1、[a] 通过apt-get方式安装的配置使用方式
+	2、[p] 通过hadoop压缩包方式安装的配置适用方式
+	3、[*] hadoop-mapred配置
+4、hadoop启动
+	1、[a] 通过apt-get方式安装启动
+	2、[p] 通过压缩包方式安装启动
+-------------------------------------------------------------------------------
+
+**************************
+1、环境准备
+**************************
+<1> [*] JAVA环境安装
+	1、google搜索"oracle jdk download"，下载jdk-6u*（注意：是下载JDK而不是JRE），本部署文档中使用的是jdk-6u31-x64版本（不清楚hadoop是否需要特定的jdk版本）
+	2、直接运行./jdk-6u31-x64.bin即可将jdk安装到所在的目录下
+	3、配置JAVA系统环境变量，如果系统不需要JAVA环境，也可以不进行配置，稍后可以单独在Hadoop配置文件中配置JAVA_HOME即可，但是以apt-get方式安装还是建议配置；
+	一般有两种最常用的方式配置JAVA环境:
+	第一种是在"/etc/profile"文件中配置，这种配置使当前物理机器上的所有的用户都可以使用这个jdk环境，也是最常用的方式；
+	第二种方式是在"~/.profile"文件（当前用户主目录下的.profile文件）中配置，这种配置只对当前用户有效；
+	当然还有一些其他的方式配置（不同linux版本和分支也可能不尽相同）。
+	假设jdk安装的目录为"/usr/share/jdk-6u31-x64"，在上述任意一种方式的配置文件的最后添加以下四行（具体每一行表示的意义不详述）：
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  JAVA_HOME=/usr/share/jdk-6u31-x64
+	|  JRE_HOME=$JAVA_HOME
+	|  PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+	|  CLASSPATH=$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
+	|
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	4、如果执行了第3步，JAVA环境就已经搭建完成；如果没有执行第3步，JAVA只是安装完成，也已经足够了Hadoop使用
+
+<2> [*] 配置集群namenode和datanode之间可以通过host访问（没有尝试过各个节点之间不通过host而只通过ip进行互相访问）
+	1、如果集群环境配置了DNS，集群的机器已经在DNS中注册了，那么此步操作可以省略
+	2、如果集群环境没有配置DNS，则所有datanode的hosts文件（/etc/hosts）都需要添加namenode的host（因为在hadoop接下来的配置中，所有datanode节点通过配置namenode的host与namenode通信），且namenode的hosts文件需要添加所有datanode和secondnamenode的host（因为namenode需要通过host与datanode通信来启动datanode>）
+	3、至此host配置完成
+	host配置示例（下述中第一列表示host名称，第二列是host的ip地址，第三列是host别名，host的别名一般可以不配置）
+	在/etc/hosts文件最后添加一行：
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  h.zyb.com	192.168.27.13	htest
+	|
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+<3> ssh设置（ssh设置是为了hadoop自带的一键部署脚本需要，hadoop各组建之间并不许要ssh支持），不设置也可以，不过在运行一键部署脚本时就需要为每一个datanode人工输入密码
+	1、ubuntu中首先可能需要执行ssh -o StrictHostKeyChecking=no，【或者修改/etc/ssh/ssh_config中的StrictHostKeyChecking配置为no】（这一项配置是在ssh连接时不再询问）
+	2、在namenode机器上，进入当前用户目录下的.ssh目录（如果没有建立.ssh目录），在.ssh目录下执行ssh-keygen -t rsa生成公钥私钥
+	3、将在.ssh中生成的id_rsa.pub拷贝到所有的datanode机器的.ssh目录下并重命名为authorized_keys（scp id_rsa.pub <datanode机器>:~/.ssh/authorized_keys）
+	4、至此ssh的相关设置已经完成
+
+
+*********************
+2、Hadoop安装，以下两种方法选择其一即可，推荐使用apt-get方式
+*********************
+<1>、apt-get方式安装hadoop（主要是参考cloudera提供的Hadoop在线安装文档）
+	1、添加cloudera官方源到本机
+	Create a new file /etc/apt/sources.list.d/cloudera.list with the following contents:
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  deb http://archive.cloudera.com/debian <RELEASE>-cdh3 contrib
+	|  deb-src http://archive.cloudera.com/debian <RELEASE>-cdh3 contrib
+	|
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	【注：由于官方源到现在只是支持到了ubuntu 10.10的版本，我本机是ubuntu 12.04 LTS，因而没有相应的源，但是我用了ubuntu 10.04 LTS的源安装，在写这个文档时还没发现问题，从理论上讲也不会有问题，仅仅是理论，而且我对“ubuntu源”这个东西工作机制也不是特别了解】
+	2、安装hadoop前有个小插曲，apt添加这个key主要是为了在告诉之后的update时cloudera源是受信任的
+	Add the Cloudera Public GPG Key to your repository by executing the following command:
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ curl -s http://archive.cloudera.com/debian/archive.key | sudo apt-key add
+	|
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	或者也可以把上面的archive.key文件先下载下来再执行sudo apt-key add archive.key，在我本机不知到为什么curl无法下载，所以我是先通过wget下载archive.key
+	3、安装cloudera hadoop
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	| $ sudo apt-get update
+	| $ sudo apt-get install hadoop-0.20 hadoop-0.20-native 
+	|
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	【注：In prior versions of CDH, the hadoop-0.20 package contained all of the service scripts in /etc/init.d/. In CDH3, the hadoop-0.20 package does not contain any service scripts – instead, those scripts are contained in the hadoop-0.20-<daemon> packages. Do the following step to install the daemon packages.】
+	4、Install each type of daemon package on the appropriate machine. 根据不同的机器需要安装这些package，这些个package中具体包含了什么没有仔细追究
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo apt-get install hadoop-0.20-<daemon type>
+	|  注：where <daemon type> is one of the following:
+	|  	namenode
+	|  	datanode
+	|  	secondarynamenode
+	|  	jobtracker
+	|  	tasktracker
+	|
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	5、至此apt-get方式安装hadoop完成
+	【注：这个种安装方式也隐含了另一种安装方式——通过deb包安装，cloudera也提供了deb包，我用的是ubuntu 10.04版本的deb包（跟前边提到的一样，其实版本之间应该影响不大），到官方下载deb：http://archive.cloudera.com/one-click-install/lucid/cdh3-repository_1.0_all.deb，然后执行 dpkg -i cdh3-repository_1.0_all.deb 进行安装，跟apt-get安装的效果一致，不过我没有尝试过，不知到deb包是否安装了hadoop-0.20-<daemon type>相关的包（就是上面第4步中提到的），各位自己验证吧】
+
+<2>、Hadoop压缩包安装方式
+	1、下载cloudera官方提供的hadoop包，本部署文档使用的是hadoop-0.20.0-cdh3u3
+	2、解压hadoop包到一个指定的目录，这个目录以后就是hadoop的安装目录了
+	3、这种方式较为简单，但是hadoop相关的一些命令需要到hadoop安装目录下的bin目录下执行，一般用包安装为了使用方便，会将bin目录下的执行程序在系统的默认可执行文件夹下创建一个快捷方式，或者使用别名
+	4、至此hadoop安装完成（包安装方式就比较简单了，其实apt-get方式在我们看来更加规范一些）
+
+***********************************
+3、[*] Hadoop配置文件配置（以下主要介绍的是一些必要的配置，细化的配置这里也不做详述，一般生产环境都有自己的固定配置规则，更详细的配置参考官方文档）
+***********************************
+<1>、通过apt-get方式安装的配置使用方式
+	1、通过apt-get方式安装配置默认位置在/etc/hadoop-0.20/conf目录下（这个是我的当前环境下的路径，不同系统、不同hadoop版本路径可能不同）
+	2、创建自己的配置文件（其实就是copy空的配置文件作为自己的配置文件，再进行配置）
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo cp -r /etc/hadoop-0.20/conf.empty /etc/hadoop-0.20/conf.my_cluster
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	3、这种配置最终要的一点是CDH3的配置使用的是alternatives（这个方式更新配置我也是第一次接触，都是跟着官方配置文档一步步操作的）
+	首先初识一下alternative，To list alternative Hadoop configurations on Ubuntu systems
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  【注：不同的hadoop版本，命令中的‘hadoop-0.20-conf’也可能不一样】
+	|  $ sudo update-alternatives --display hadoop-0.20-conf
+	|
+	|  命令执行的结果可能是下面的这个样子：
+	|  hadoop-0.20-conf - status is auto.
+	|  link currently points to /etc/hadoop-0.20/conf.empty  【这一行意思是：当前的配置指向的配置真正的位置是conf.empty这个配置】
+	|  /etc/hadoop-0.20/conf.empty - priority 10             【这一行意思是：conf.empty配置的优先级为10】
+	|  Current `best' version is /etc/hadoop-0.20/conf.empty.【这一行意思是：当前所谓的最好，即优先级最高的的配置是conf.empty】
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	4、我们创建了自己的配置conf.my_cluster，接着将我们的配置加入到alternative配置管理中
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo update-alternatives --install /etc/hadoop-0.20/conf hadoop-0.20-conf /etc/hadoop-0.20/conf.my_cluster 50
+	|  【‘/etc/hadoop-0.20/conf’表示连接真实配置的路径】
+	|  【‘hadoop-0.20-conf’表示在alternative中当前配置的一个配置组名称】
+	|  【‘/etc/hadoop-0.20/conf.my_cluster’表示真实的配置文件的路径，‘50’表示这个配置的优先级】
+	|
+	|  【注：接着可以用刚刚提到的命令查看‘hadoop-2.20-conf’的配置，会发现现在配置已经指向了‘/etc/hadoop-0.20/conf.my_cluster’】
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	5、至此如何alternatives的适用方式介绍完了
+<2>、通过hadoop压缩包方式安装的配置使用方式
+	这种方式配置使用的就是最简单方式，这种方式安装的配置默认就在安装目录下的conf文件夹下，直接修改这个文件夹下的配置文件即可
+<3>、hadoop-mapred配置
+	【注：hadoop最主要的3个配置文件为：core-site.xml、hdfs-site.xml、mapred-site.xml，其他的配置都很重要，只不过以后这3个可能最常用】
+	【注：以下提到的本地文件夹的所属用户和组分别为hdfs和hadoop，这个用户和组在通过apt-get安装后会自动建立，如果是hadoop压缩包安装，用户和组可根据自己需要建立】
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  【注】hdfs:hadoop和mapred:hadoop组和用户，在使用apt-get方式安装会自动建立；通过hadoop压缩包方式安装的组和用户可以根据需要自定义建立
+	|
+	|  下文中提到的与hadoop相关的三个本地文件夹相关权限设置到hdfs:hadoop用户下：
+	|  	dfs.name.dir            drwx------      (如：chown -R hdfs:hadoop /opt/hdir/dfs && chmod 700 /opt/hdir/dfs/nn)
+	|  	dfs.data.dir            drwx------      (如：chown -R hdfs:hadoop /opt/hdir/dfs && chmod 700 /opt/hdir/dfs/dn)
+	|  	mapred.local.dir        drwxr-xr-x      (如：chown -R mapred:hadoop /opt/hdir/mapred && chmod 755 /opt/hdir/mapred/local)
+	|  设置HDFS文件系统中的根目录权限到hdfs:hadoop的组用户下（理论上HDFS根目录的用户和组默认为安装hadoop时所使用的linux的用户和组），权限为：drwxr-xr-x：
+	|	$ sudo hadoop fs -chown hdfs:hadoop /
+	|  	$ sudo -u hdfs hadoop fs -chmod -R 755 /
+	|  下文中提到的hadoop.tmp.dir为HDFS文件系统中的文件夹（貌似hadoop.tmp.dir目录本地也会使用，本地的权限最好设置为drwxrwxr-x）
+	|  设置hadoop.tmp.dir权限到hdfs:hadoop的组用户下，权限为：drwxrwxrwt （假设hadoop.tmp.dir设置是/var/hadoop-tmp）
+	|  	$ sudo -u hdfs hadoop fs -mkdir /var/hadoop-tmp
+	|  	$ sudo -u hdfs hadoop fs -chmod -R 1777 /var/hadoop-tmp
+	|  下文中提到的mapreduce相关的目录mapred.system.dir为HDFS文件系统中的文件
+	|  设置mapred.system.dir权限到mapred:hadoop的组用户下，权限为：drwx------ （假设mapred.system.dir设置是/mapred/system）
+	|  	$ sudo -u hdfs hadoop fs -mkdir /mapred/system
+	|  	$ sudo -u hdfs hadoop fs -chown mapred:hadoop /mapred/system
+	|  	$ sudo -u mapred hadoop fs -chmod -R 700 /mapred/system
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	1、hadoop-env.sh的JAVA_HOME配置项为JAVA的HOME目录，如果系统中已经配置了JAVA_HOME，此项可以不设置，这一项并不强制要求将JAVA_HOME配置的系统中
+	2、配置hadoop-env.sh的HADOOP_HEAPSIZE配置项，根据实际情况配置，一般配置为系统内存大小的一半（不知道为什么，参考其他同事相关部署文档的说明）
+	3、配置core-site.xml的fs.default.name，namenode地址，为hdfs://<hostname>:<port>，端口号一般使用9040，如：hdfs://h.zyb.com:9040
+	4、配置core-site.xml的hadoop.tmp.dir，这个目录是临时文件目录，默认的tmp貌似在ubuntu下会被系统定时清理，所以要更换目录，可以更换到var或其他目录
+	5、修改hdfs-site.xml的dfs.name.dir配置项，这一项默认是在hadoop.tmp.dir目录下，这个配置项配置了hdfs的namenode的metadata和edit log文件存放位置，官方建议至少配置两个文件夹，且其中一个最好是NFS
+	6、修改hdfs-site.xml的dfs.data.dir配置项，这一项默认是在hadoop.tmp.dir目录下，这个配置项配置了hdfs的数据文件存放位置，多个硬盘存放文件时，多硬盘的文件夹之前用英文逗号分隔
+	7、配置mapred-site.xml的mapred.local.dir配置项（这个配置项配置了tasktracker运行mapreduce生成的temporary data和intermediate map file存放的位置）
+	8、配置mapred-site.xml的mapred.job.tracker配置项（JobTracker的地址，端口一般使用9001），如：h.zyb.com:9001
+	9、配置mapred-site.xml的mapred.tasktracker.map.tasks.maximum配置项（单台TaskTracker能够运行的最大Map数，一般为机器核数）
+	10、配置mapred-site.xml的mapred.tasktracker.reduce.tasks.maximum配置项（单台TaskTracker能够运行的最大Reduce数，一般为1或2）
+	11、配置mapred-site.xml的mapred.job.tracker.http.address配置项（web端查看的地址，端口一般使用50030），如：h.zyb.com:50030
+	12、配置mapred-site.xml的mapred.jobtracker.restart.recover配置项为true（如果jobtracker在job运行时挂掉了，jobtracker重启后会重新自动运行之前正在运行的job）
+	13、清空masters和slaves两个文件（特别是使用apt-get安装方式安装，最好清空）
+	
+	【注】如果使用hadoop一键启动脚本（主要是针对hadoop包安装方式），还需配置masters和slaves两个文件
+	      这两个文件只需要在namenode机器上配置，这两个文件使得一键启动脚本可以找到所有的secondnamenode和所有的datanode
+	1、配置masters文件，如果有secondnamenode，将secondnamenode的hostname写在masters文件中，否则清空这个文件（生产环境一般不会没有secondnamenode）
+	2、配置slaves文件，配置所有的datanode的hostname到这个文件中，每一个hostname一行
+
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  【注】
+	|  1、当mpareduce需要第三方jar包时，需要将第三方jar包拷贝到集群的所有mapred节点的hadoop的lib文件夹中，且需要重启mapreduce
+	|  2、In practice, the dfs.data.dir and mapred.local.dir are often configured on the same set of disks, 
+	|     so a disk failure will result in the failure of both a dfs.data.dir and mapred.local.dir.
+	|  3、Configuring a Remote NameNode Storage Directory, To keep NameNode processes from hanging when the NFS server is unavailable, 
+	|     configure the NFS mount as a soft mount (so that I/O requests that time out fail rather than hang), 
+	|     and set other options as follows: mount -t nfs -o tcp,soft,intr,timeo=10,retrans=10, <server>:<export> <mount_point>
+	|
+	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**********************
+4、hadoop启动和停止
+**********************
+<1>、通过apt-get方式安装启动
+	1、首先对hdfs系统格式化
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo -u hdfs hadoop namenode -format
+	|  【注：接着你会得到下面的提示：Re-format filesystem in /data/namedir ? (Y or N)；这时只能输入大写的‘Y’，小写的‘y’无效】
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+	2、在namenode机器上以服务形式启动namenode
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo service hadoop-0.20-namenode start
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+	3、在每一个datanode机器上一服务形式启动datanode
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo service hadoop-0.20-datanode start
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+	4、在JobTracker机器上启动JobTracker
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo service hadoop-0.20-jobtracker start
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+	5、在每一个TaskTracker机器上启动TaskTracker
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo service hadoop-0.20-tasktracker start
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+	6、设置各个组件开机启动（ubuntu使用update-rc.d，也可以通过安装sysv-rc-conf来使用chkconfig）
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo update-rc.d hadoop-0.20-namenode defaults
+	|  $ sudo update-rc.d hadoop-0.20-datanode defaults
+	|  $ sudo update-rc.d hadoop-0.20-jobtracker defaults
+	|  $ sudo update-rc.d hadoop-0.20-tasktracker defaults
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+	4、停止hadoop
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ sudo service hadoop-0.20-jobtracker stop
+	|  $ sudo service hadoop-0.20-tasktracker stop
+	|  $ sudo service hadoop-0.20-namenode stop
+	|  $ sudo service hadoop-0.20-datanode stop
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+
+<2>、通过hadoop压缩包方式安装启动
+	1、首先格式化hdfs系统
+	++++++++++++++++++++++++++++++++++++++++++++++
+        |
+	|  $ cd <HADOOP_HOME>/bin	【<HADOOP_HOME>替换为hadoop的安装目录】
+        |  $ ./hadoop namenode -format
+        |  【注：接着你会得到下面的提示：Re-format filesystem in /data/namedir ? (Y or N)；这时只能输入大写的‘Y’，小写的‘y’无效】
+        |
+        ++++++++++++++++++++++++++++++++++++++++++++++
+	2、执行一键启动dfs的脚本，下面的命令会在执行命令的机器上启动namenode，会启动slaves文件中包含的机器上的datanode
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ cd <HADOOP_HOME>/bin
+	|  $ ./start-dfs.sh
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+	3、执行一键启动mapreduce的脚本，下面的命令会在执行命令的机器上启动JobTracker，会启动slaves文件中包含的机器上的TaskTracker
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ cd <HADOOP_HOME>/bin
+	|  $ ./start-mapred.sh
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
+	4、停止hadoop
+	++++++++++++++++++++++++++++++++++++++++++++++
+	|
+	|  $ cd <HADOOP_HOME>/bin
+	|  $ ./stop-mapred.sh
+	|  $ ./stop-dfs.sh
+	|
+	++++++++++++++++++++++++++++++++++++++++++++++
