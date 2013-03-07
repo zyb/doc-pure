@@ -83,14 +83,14 @@ hadoop-mapred部署：
 *********************
 <1>、apt-get方式安装hadoop（主要是参考cloudera提供的Hadoop在线安装文档）
 	1、添加cloudera官方源到本机
-	Create a new file /etc/apt/sources.list.d/cloudera.list with the following contents:
+	Create a new file /etc/apt/sources.list.d/cloudera.list with the following contents:【注：我用的是cdh3u3版本，根据不同版本下面的两行不完全一致】
 	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	|
-	|  deb http://archive.cloudera.com/debian <RELEASE>-cdh3 contrib
-	|  deb-src http://archive.cloudera.com/debian <RELEASE>-cdh3 contrib
+	|  deb http://archive.cloudera.com/debian <RELEASE>-cdh3u3 contrib
+	|  deb-src http://archive.cloudera.com/debian <RELEASE>-cdh3u3 contrib
 	|
 	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	【注：由于官方源到现在只是支持到了ubuntu 10.10的版本，我本机是ubuntu 12.04 LTS，因而没有相应的源，但是我用了ubuntu 10.04 LTS的源安装，在写这个文档时还没发现问题，从理论上讲也不会有问题，仅仅是理论，而且我对“ubuntu源”这个东西工作机制也不是特别了解】
+	【注：替换<RELEASE>为ubuntu的版本代号，由于官方源到现在只是支持到了ubuntu 10.10的版本，我本机是ubuntu 12.04 LTS，因而没有相应的源，但是我用了ubuntu 10.04 LTS的源安装，在写这个文档时还没发现问题，从理论上讲也不会有问题，仅仅是理论，而且我对“ubuntu源”这个东西工作机制也不是特别了解】
 	2、安装hadoop前有个小插曲，apt添加这个key主要是为了在告诉之后的update时cloudera源是受信任的
 	Add the Cloudera Public GPG Key to your repository by executing the following command:
 	+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
