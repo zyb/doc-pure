@@ -1,0 +1,11 @@
+持续任务：
+1、数据延迟分析
+
+sid string utf8的问题
+
+solr-sink中事务处理bug修复-考虑重构solr-sink
+9月份绩效
+韦成勇一个月tv数据提取
+
+杜宇数据提取
+hbase三地上线
