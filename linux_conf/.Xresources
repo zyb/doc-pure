@@ -1,0 +1,10 @@
+XTerm*locale:true
+
+XTerm*faceName: DejaVu Sans Mono:pixelsize=15
+XTerm*faceNameDoublesize: WenQuanYi Micro Hei Mono:pixelsize=15
+
+XTerm*background: #202020
+XTerm*foreground: #FFFFFF
+
+XTerm*SaveLines: 10000
+

@@ -1,0 +1,104 @@
+# Conky, a system monitor, based on torsmo
+#
+# Any original torsmo code is licensed under the BSD license
+#
+# All code written since the fork of torsmo is licensed under the GPL
+#
+# Please see COPYING for details
+#
+# Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+# Copyright (c) 2005-2010 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+background no
+use_xft yes
+xftfont Bitstream Vera Sans Mono:size=10
+xftalpha 0.8
+update_interval 3.0
+total_run_times 0
+own_window yes
+own_window_transparent no
+own_window_colour black
+own_window_hints undecorated,skip_taskbar,skip_pager,below
+own_window_type override
+double_buffer yes
+minimum_size 280 5
+draw_shades no
+draw_outline no
+draw_graph_borders yes
+stippled_borders 8
+border_width 1
+maximum_width 150
+default_color darkgrey
+default_shade_color black
+default_outline_color black
+alignment top_right
+gap_x 4
+gap_y 4
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+net_avg_samples 2
+override_utf8_locale no
+use_spacer right
+
+TEXT
+${color #ddaa00}${alignc}${nodename} ${uptime_short}
+${color #00aadd}${hr}
+${color #ddaa00}RAM: ${color #ffffff}$mem/$memmax
+${color #ddaa00} ${membar 6,140}
+#${color #ddaa00}Swap:${color #ffffff}$swap/$swapmax
+#${color #ddaa00} ${swapbar 6,140}
+${color #ddaa00}CPU: ${color #ffffff}$cpu% | ${alignr}T: ${acpitemp}
+${color #ddaa00} ${cpugraph 16,140 000000 ddaa00}
+${color #ddaa00}DISK: ${color #ffffff}${diskio_write}|${diskio_read}
+${color #ddaa00} ${diskiograph_write 16,60 000000 ddaa00} ${diskiograph_read 16,60 000000 ddaa00}
+${color #ddaa00}VLAN: ${color #ffffff}${downspeed enp12s0}|${upspeed enp12s0}
+${color #ddaa00} ${downspeedgraph enp12s0 16,60 000000 ddaa00} ${upspeedgraph enp12s0 16,60 000000 ddaa00}
+${color #ddaa00}WLAN: ${color #ffffff}${downspeed wlp3s0b1}|${upspeed wlp3s0b1}
+${color #ddaa00} ${downspeedgraph wlp3s0b1 16,60 000000 ddaa00} ${upspeedgraph wlp3s0b1 16,60 000000 ddaa00}
+${color #00aadd}${hr}
+${color #ddaa00}File systems:
+${color #ddaa00}/     ${color #ffffff} ${fs_free /}
+${color #ddaa00} ${fs_bar 6,140 /}
+${color #ddaa00}/home ${color #ffffff}${fs_free /home}
+${color #ddaa00} ${fs_bar 6,140 /home}
+${color #ddaa00}C     ${color #ffffff}${fs_free /mnt/winc}
+${color #ddaa00} ${fs_bar 6,140 /mnt/winc}
+${color #ddaa00}D     ${color #ffffff}${fs_free /mnt/wind}
+${color #ddaa00} ${fs_bar 6,140 /mnt/wind}
+${color #00aadd}${hr}
+${color #ddaa00}Processes:${color #ffffff} $processes
+${color #ddaa00}Runing:${color #ffffff} $running_processes
+${color} Cpu usage    CPU%
+${color #ffffff} ${top name 1}${offset -50} ${top cpu 1}
+${color #ddaa00} ${top name 2}${offset -50} ${top cpu 2}
+${color #ddaa00} ${top name 3}${offset -50} ${top cpu 3}
+
+${color} Mem usage    MEM%
+${color #ffffff} ${top_mem name 1}${offset -50} ${top_mem mem 1}
+${color #ddaa00} ${top_mem name 2}${offset -50} ${top_mem mem 2}
+${color #ddaa00} ${top_mem name 3}${offset -50} ${top_mem mem 3}
+${color #00aadd}${hr}
+${color #ddaa00}VLAN:
+${color #ffffff} $alignr${addr enp12s0}
+${color #ddaa00}WLAN: ${color #ffffff}${wireless_essid wlp3s0b1}
+${color #ffffff} $alignr${addr wlp3s0b1}
+${color #00aadd}${hr}
+${color #ddaa00}Battery: ${color #ffffff}${battery_percent BAT0}%
+${color #ddaa00}Volume: ${color #ffffff}$mixer
+${color #00aadd}${hr}
+${color #ddaa00}  ${time %m-%d %T}
