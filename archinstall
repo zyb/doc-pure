@@ -1,0 +1,26 @@
+fdisk
+mkfs.ext4
+mount
+
+pacstrap -i /mnt/xxx base base-devel grub networkmanager wpa_supplicant dosfstools vim docker xorg-server xorg-server-utils xorg-xinit xterm firefox herbstluftwm ttf-inconsolata wqy-microhei alsa-utils flashplugin fcitx-im fcitx-sunpinyin fcitx-configtool
+
+genfstab -U -p /mnt/xxx >> /mnt/xxx/etc/fstab
+
+arch-chroot /mnt/xxx /bin/bash
+
+vim /etc/locale.gen
+locale-gen
+echo LANG=en_US.UTF-8 > /etc/locale.conf
+
+echo {hostname} > /etc/hostname
+vim /etc/hosts
+
+ln -s /usr/share/zoneinfo/{Zone}/{SubZone} /etc/localtime
+
+hwclock --systohc --utc
+
+passwd
+
+grub-install --target=i386-pc --recheck /dev/sdX
+pacman -S os-prober
+grub-mkconfig -o /boot/grub/grub.cfg
