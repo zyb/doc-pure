@@ -8,8 +8,7 @@ hc() {
 
 hc emit_hook reload
 
-# xsetroot -solid '#5A8E3A'
-# xsetroot -solid '#202020'
+#xsetroot -solid '#5A8E3A'
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -149,12 +148,6 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
-hc rule class=Firefox tag=1
-hc rule class=Thunderbird tag=2
-hc rule class=Eclipse tag=3
-hc rule class=Wine tag=4
-#hc rule class=XTerm tag=5 focus=on
-
 # unlock, just to be sure
 hc unlock
 
@@ -172,4 +165,3 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
 done
-
