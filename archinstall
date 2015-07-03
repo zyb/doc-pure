@@ -21,6 +21,9 @@ hwclock --systohc --utc
 
 passwd
 
+useradd -m -g users -s /bin/bash xxx
+vim /etc/sudoers
+
 grub-install --target=i386-pc --recheck /dev/sdX
 pacman -S os-prober
 grub-mkconfig -o /boot/grub/grub.cfg
