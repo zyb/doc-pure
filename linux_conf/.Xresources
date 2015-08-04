@@ -1,6 +1,6 @@
 XTerm*locale:true
 
-XTerm*faceName: DejaVu Sans Mono:pixelsize=15
+XTerm*faceName: Inconsolata:pixelsize=15
 XTerm*faceNameDoublesize: WenQuanYi Micro Hei Mono:pixelsize=15
 
 XTerm*background: #202020
@@ -8,3 +8,7 @@ XTerm*foreground: #FFFFFF
 
 XTerm*SaveLines: 10000
 
+*VT100*translations: #override \n\
+Shift <KeyPress> Insert:insert-selection(CLIPBOARD, CUT_BUFFER1) \n\
+~Shift~Ctrl<Btn2Up>: insert-selection(CLIPBOARD, CUT_BUFFER1) \n\
+~Shift<BtnUp>: select-end(CLIPBOARD, CUT_BUFFER1)
