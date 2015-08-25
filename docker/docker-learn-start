@@ -1,0 +1,41 @@
+使用的环境为centos7，写这个文档时正在做的事情是搭建试用mesos（Marathon）+docker的环境，调研docker的集群资源管理
+过程中萌发出来的想法是一切皆docker的想法，包括了：1、使用docker来搭建一个私有的docker-registry；2、docker搭建mesos和Marathon；0、在一切皆容器之前，在还没有私有docker-registery，需要先从官方下载一个centos容器搭建docker-registry，这是在国内为了加速使用daocloud的景象加速。
+一些备忘：
+centos7中docker的参数配置一部分在/etc/sysconfig/docker文件中
+centos7中docker.service位置在
+
+1、首先在centos7上安装docker环境（由于docker用户组存在安全问题，不建议将普通用户加入到docker用户组，使用sudo的形式运行docker，并且在docker容器中不是用root账户）
+2、根据daocloud官方说明添加镜像加速配置
+3、docker pull centos，在这个过程中遇到一个问题，出现“dial tcp: lookup index.docker.io: no such host”，这个问题原因应该是虚拟机解析域名有问题，可能跟我自身虚拟机域名配置有关，如果遇到可以在/etc/resolv.conf中最前面添加一个域名服务，我添加了阿里的公共域名服务，如果添加了之后还无法解决这个问题，systemctl restart docker重启docker服务应该就可以了，这个问题没有深究，不过看情况docker拉取镜像的模块没能够自动的更新域名服务。
+4、在虚拟机中docker run运行容器出现“Usage of loopback devices is strongly discouraged for production use. Either use `--storage-opt dm.thinpooldev` or use `--storage-opt dm.no_warn_on_loop_devices=true` to suppress this warning.”告警提示，docker的warn信息已经指出了“loopback device”-a virtual block device，这个原因是我用的是虚拟机，虚拟机磁盘分配方式是边用边分配，这种磁盘在虚拟机中可能就是“loopback device”，具体的也没去深究，这个问题的解决方式在stackoverflow中找到相关问题的原因分析（但是未尝试）：
+============================================
+The warning message occurs because your Docker storage configuration is using a "loopback device" -- a virtual block device such as /dev/loop0 that is actualled backed by a file on your filesystem. This was never meant as anything more than a quick hack to get Docker up and running quickly as a proof of concept.
+
+You don't want to suppress the warning; you want to fix your storage configuration such that the warning is no longer issued. The easiest way to do this is to assign some local disk space for use by Docker's devicemapper storage driver and use that.
+
+If you're using LVM and have some free space available on your volume group, this is relatively easy. For example, to give docker 100G of space, first create a data and metadata volume:
+# lvcreate -n docker-data -L 100G /dev/my-vg
+# lvcreate -n docker-metata -L1G /dev/my-vg
+
+And then configure Docker to use this space by editing /etc/sysconfig/docker-storage to look like:
+DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.datadev=/dev/my-vg/docker-data --storage-opt dm.metadatadev=/dev/my-vg/docker-metadata
+
+If you're not using LVM or don't have free space available on your VG, you could expose some other block device (e.g., a spare disk or partition) to Docker in a similar fashion.
+============================================
+5、由于安全相关问题，先根据官方的centos base image创建了一个包含普通账户的centos base image，并且把yum repo更换到ustc的源（通过dockerfile中的ADD关键字直接从ustc服务器上下载覆盖到docker环境的yum repo）。
+6、docker register本身镜像在官方已经有了，直接docker pull下来。本次使用的是registry:2.1.1；通过docker run -d --net=host -v /home/z/registry-data:/var/lib/registry registry:2.1.1来启动registry（在2.1.1中配置文件config.yml中配置了数据文件位置在/var/lib/registry）；可以通过运行curl http://172.16.104.145:5000/v2/_catalog查看registry2上镜像来确认服务是否正常；通过docker push到registry2时，如果使用本机环路127.0.0.1可以直接push成功，如果是通过网卡ip来push会因为registry2默认需要https认证导致push失败，两个方式可以解决：1、通过在docker daemon的启动参数中增加“--insecure-registry <ip>:<port>”的方式解决；2、通过生成签名证书来解决，这个方式也是生产环境推荐的解决方式，网上使用nginx+registry的方案都是这个问题的，这里不祥说。
+7、在centos7中运行容器，发现挂载的本地目录在容器中没有执行权限，原因是centos7中的安全模块selinux把权限禁掉了，至少有三种方式解决挂载目录没有权限问题：
+============================================
+1，在运行容器的时候，给容器加特权：
+示例：docker run -i -t --privileged=true -v /home/docs:/src waterchestnut/nodejs:0.12.0
+
+2，临时关闭selinux：
+示例：su -c "setenforce 0"
+之后执行：docker run -i -t -v /home/docs:/src waterchestnut/nodejs:0.12.0
+注意：之后要记得重新开启selinux，命令：su -c "setenforce 1"
+
+3，添加selinux规则，将要挂载的目录添加到白名单：
+示例：chcon -Rt svirt_sandbox_file_t /home/docs
+之后执行：docker run -i -t -v /home/docs:/src waterchestnut/nodejs:0.12.0
+============================================
+8、由于一开始对mesos没有概念，数人科技的mesos做了二次封装，相对部署简单一些，先拿来测试用着；跟着官网的安装步骤执行就可以。
