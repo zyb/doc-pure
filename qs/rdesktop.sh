@@ -1,4 +1,9 @@
 #! /bin/bash
+if [ "kill" == "$1" ]; then
+	p=`pidof rdesktop`
+	kill $p
+	exit 0
+fi
 
 rd="rdesktop -a 16 -P -g 98% -t -z -r sound:off"
 
