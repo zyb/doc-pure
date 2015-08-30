@@ -5,6 +5,8 @@ if [ "kill" == "$1" ]; then
 	exit 0
 fi
 
+# tcZAflwsyhy2yh!Q#E%T&U(O
+
 rd="rdesktop -a 16 -P -g 98% -t -z -r sound:off"
 
 if [ "" == "$1" ]; then

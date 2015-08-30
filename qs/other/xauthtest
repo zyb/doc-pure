@@ -1,0 +1,19 @@
+#! /bin/sh
+
+mcookie=`/usr/bin/mcookie`
+if test x"$mcookie" = x; then
+	echo "cookie failed"
+	exit 1
+else
+	echo "$mcookie"
+fi
+dummy=7
+
+xauthfile=`mktemp -p /tmp testauth.XXXXXXXXXX`
+echo $xauthfile
+xauth -q -f "$xauthfile" << EOF
+add :$dummy . $mcookie
+EOF
+
+xauth -f $xauthfile list
+#rm $xauthfile

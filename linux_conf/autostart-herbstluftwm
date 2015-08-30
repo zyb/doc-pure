@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # this is a simple config for herbstluftwm
 
 hc() {
@@ -8,7 +7,8 @@ hc() {
 
 hc emit_hook reload
 
-#xsetroot -solid '#5A8E3A'
+# xsetroot -solid '#5A8E3A'
+# xsetroot -solid '#202020'
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -22,6 +22,20 @@ hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn xterm
+
+# custom
+hc keybind $Mod-Ctrl-Shift-a spawn ~/qs/screenshot.sh
+hc keybind $Mod-Ctrl-Shift-f spawn firefox
+hc keybind $Mod-Ctrl-Shift-m spawn thunderbird
+hc keybind $Mod-Ctrl-Shift-t spawn ~/qs/tm.sh
+hc keybind $Mod-Ctrl-Shift-k spawn ~/qs/killtm.sh
+hc keybind $Mod-Ctrl-Shift-v spawn vmware
+hc keybind $Mod-Ctrl-Shift-r spawn ~/qs/rdesktop.sh
+hc keybind $Mod-Ctrl-Shift-d spawn ~/qs/rdesktop.sh kill
+hc keybind $Mod-Ctrl-Shift-Up spawn amixer -c 0 -- sset Master playback 2dB+
+hc keybind $Mod-Ctrl-Shift-Down spawn amixer -c 0 -- sset Master playback 2dB-
+hc keybind $Mod-Ctrl-Shift-Left spawn amixer sset Master mute
+hc keybind $Mod-Ctrl-Shift-Right spawn amixer sset Master unmute
 
 # basic movement
 # focusing clients
@@ -148,6 +162,14 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
+hc rule class=Firefox tag=1
+#hc rule class=Eclipse tag=2
+hc rule class=Thunderbird tag=4
+hc rule instance=TM.exe tag=5
+hc rule title="rdesktop - 172.16.59.13" tag=6
+hc rule class='Vmware' tag=7
+hc rule class='INodeClient' tag=9
+
 # unlock, just to be sure
 hc unlock
 
@@ -159,9 +181,12 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # hc detect_monitors
 
 # find the panel
+#if [ '1' == '0' ]; then
 panel=~/.config/herbstluftwm/panel.sh
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
 done
+#fi
+

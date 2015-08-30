@@ -1,0 +1,5 @@
+#! /bin/bash
+
+localedef --list-archive | grep -v -E "en_US.utf8|zh_CN.utf8|zh_HK.utf8|zh_TW.utf8" | xargs localedef --delete-from-archive
+mv /usr/lib/locale/locale-archive /usr/lib/locale/locale-archive.tmpl
+build-locale-archive

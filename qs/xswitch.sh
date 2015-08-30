@@ -4,11 +4,9 @@ IN="LVDS1"
 EXT="VGA1"
 MODE=""
 
-if [ "$1" == "17" ]
-	then
+if [ "$1" == "17" ]; then
 	MODE="--mode 1024x768"
-elif [ "$1" == "86" ]
-	then
+elif [ "$1" == "86" ]; then
 	MODE="--mode 800x600"
 fi
 
