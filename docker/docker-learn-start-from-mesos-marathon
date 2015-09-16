@@ -1,0 +1,77 @@
+使用的环境为centos7，写这个文档时正在做的事情是搭建试用mesos（Marathon）+docker的环境，调研docker的集群资源管理（这里用的marathon为0.10.0版本，mesos用的是0.23.0版本）
+过程中萌发出来的想法是一切皆docker的想法，包括了：1、使用docker来搭建一个私有的docker-registry；2、docker搭建mesos和Marathon；0、在一切皆容器之前，在还没有私有docker-registery，需要先从官方下载一个centos容器搭建docker-registry，这是在国内为了加速使用daocloud的景象加速。
+============================================
+一些备忘：
+centos7中docker的参数配置一部分在/etc/sysconfig/docker文件中
+centos7中docker.service位置在/usr/lib/systemd/system/docker.service
+============================================
+
+
+1、首先在centos7上安装docker环境（由于docker用户组存在安全问题，不建议将普通用户加入到docker用户组，使用sudo的形式运行docker，并且在docker容器中不是用root账户）
+2、根据daocloud官方说明添加镜像加速配置
+3、docker pull centos，在这个过程中遇到一个问题，出现“dial tcp: lookup index.docker.io: no such host”，这个问题原因应该是虚拟机解析域名有问题，可能跟我自身虚拟机域名配置有关，如果遇到可以在/etc/resolv.conf中最前面添加一个域名服务，我添加了阿里的公共域名服务，如果添加了之后还无法解决这个问题，systemctl restart docker重启docker服务应该就可以了，这个问题没有深究，不过看情况docker拉取镜像的模块没能够自动的更新域名服务。
+4、在虚拟机中docker run运行容器出现“Usage of loopback devices is strongly discouraged for production use. Either use `--storage-opt dm.thinpooldev` or use `--storage-opt dm.no_warn_on_loop_devices=true` to suppress this warning.”告警提示，docker的warn信息已经指出了“loopback device”-a virtual block device，这个原因是我用的是虚拟机，虚拟机磁盘分配方式是边用边分配，这种磁盘在虚拟机中可能就是“loopback device”，具体的也没去深究，这个问题的解决方式在stackoverflow中找到相关问题的原因分析（但是未尝试）：
+============================================
+The warning message occurs because your Docker storage configuration is using a "loopback device" -- a virtual block device such as /dev/loop0 that is actualled backed by a file on your filesystem. This was never meant as anything more than a quick hack to get Docker up and running quickly as a proof of concept.
+
+You don't want to suppress the warning; you want to fix your storage configuration such that the warning is no longer issued. The easiest way to do this is to assign some local disk space for use by Docker's devicemapper storage driver and use that.
+
+If you're using LVM and have some free space available on your volume group, this is relatively easy. For example, to give docker 100G of space, first create a data and metadata volume:
+# lvcreate -n docker-data -L 100G /dev/my-vg
+# lvcreate -n docker-metata -L1G /dev/my-vg
+
+And then configure Docker to use this space by editing /etc/sysconfig/docker-storage to look like:
+DOCKER_STORAGE_OPTIONS=-s devicemapper --storage-opt dm.datadev=/dev/my-vg/docker-data --storage-opt dm.metadatadev=/dev/my-vg/docker-metadata
+
+If you're not using LVM or don't have free space available on your VG, you could expose some other block device (e.g., a spare disk or partition) to Docker in a similar fashion.
+============================================
+5、由于安全相关问题，先根据官方的centos base image创建了一个包含普通账户的centos base image，并且把yum repo更换到ustc的源（通过dockerfile中的ADD关键字直接从ustc服务器上下载覆盖到docker环境的yum repo）。
+6、docker register本身镜像在官方已经有了，直接docker pull下来。本次使用的是registry:2.1.1；通过docker run -d --net=host -v /home/z/registry-data:/var/lib/registry registry:2.1.1来启动registry（在2.1.1中配置文件config.yml中配置了数据文件位置在/var/lib/registry）；可以通过运行curl http://172.16.104.145:5000/v2/_catalog查看registry2上镜像来确认服务是否正常；通过docker push到registry2时，如果使用本机环路127.0.0.1可以直接push成功，如果是通过网卡ip来push会因为registry2默认需要https认证导致push失败，两个方式可以解决：1、通过在docker daemon的启动参数中增加“--insecure-registry <ip>:<port>”的方式解决；2、通过生成签名证书来解决，这个方式也是生产环境推荐的解决方式，网上使用nginx+registry的方案都是这个问题的，这里不祥说。
+7、在centos7中运行容器，发现挂载的本地目录在容器中没有执行权限，原因是centos7中的安全模块selinux把权限禁掉了，至少有三种方式解决挂载目录没有权限问题：
+============================================
+1，在运行容器的时候，给容器加特权：
+示例：docker run -i -t --privileged=true -v /home/docs:/src waterchestnut/nodejs:0.12.0
+
+2，临时关闭selinux：
+示例：su -c "setenforce 0"
+之后执行：docker run -i -t -v /home/docs:/src waterchestnut/nodejs:0.12.0
+注意：之后要记得重新开启selinux，命令：su -c "setenforce 1"
+
+3，添加selinux规则，将要挂载的目录添加到白名单：
+示例：chcon -Rt svirt_sandbox_file_t /home/docs
+之后执行：docker run -i -t -v /home/docs:/src waterchestnut/nodejs:0.12.0
+============================================
+
+
+8、由于一开始对mesos没有概念，数人科技的mesos做了二次封装，相对部署简单一些，先拿来测试用着；跟着官网的安装步骤执行就可以。
+9、apache mesos安装运行方法：官网下载mesos包，根据官网安装说明安装相应linux发行版系统对应的依赖包，解压下载的mesos包，进到mesos目录中进行构建mesos：mkdir build && cd build && ../configure && make，为了加快构建可以在make命令后面添加-j <number of cores>，进行并发构建；这个就是构建mesos包的命令，完成之后在build/bin目录下会有相应服务启动的脚本，主要是mesos-master.sh和mesos-slave.sh两个脚本，分别是master和slave的启动脚本。（另外：可以在构建mesos时，通过指定configure命令的一个参数：--prefix=/mesos/install/path设置安装路径，但是具体这个路径指的是make的路径还是make install的路径，没有尝试后续会尝试；并且configure可以指定--with-java-home=/jdk/home/path可以指定自己的jdk路径；这两个配置都是从网上一篇文章看到的，用的是mesos-0.9的版本，后续mesos版本这些参数名称也可能会有些变化）
+10、mesos-master启动方式为：mesos-master.sh --ip=<本机ip> --work_dir=<master服务数据存放位置>，这是单个master模式，多master的需要zk管理，配置多master，首先启动zk，然后在启动参数中添加：--zk=zk://<host>:<port>,<host1>:<port1>,...,<hostX>:<portX>/<path> --quorum=<INT VALUE>；第一个参数顾名思义，就是多个zk的host和port以及在master相关信息在zk中注册的path，quorum是注册时master副本仲裁数量的多少，必须将该值设定为大多数 masters 比如， quorum > ( masters 总量)/2。启动成功之后在网页中打开：http://<master-ip>:5050，可以查看mesos状态。[例如一个启动命令：/mesos-build/bin/mesos-master.sh --ip=172.16.4.133 --work_dir=./mesos-data --zk=zk://172.16.4.133:2181/mesos-master --quorum=1]
+11、mesos-slave启动方式为：mesos-slave.sh --ip=<本机ip> --master=<master-url,有三种形式>，master-url有三种形式，第一种主要针对没有zk启动的master：--master=<ip>:<port>,...,<ipX>:<portX>，第二种方式需要master以zk形式启动，直接配置到master在zk上注册的信息：--master=zk://<host>:<port>,...,<hostX>:<portX>/<path>，第三种形式是指定一个文件路径，--master=file:///path/to/file，这里文件内容就是包含着前两个说明的配置。文件默认mesos-slave启动是不支持docker的，如果需要支持docker，需要在启动参数中增加：--containerizers=docker,mesos，默认只有mesos，mesos支持三种类型mesos, external, docker。[例如一个启动命令：/mesos-build/bin/mesos-slave.sh --ip=172.16.4.133 --master=172.16.4.133:5050 --containerizers=docker,mesos]
+12、mesos-slave的containerizers配置支持docker类型，还有一个问题，如果启动mesos-slave的用户无法执行docker，则如果提交了docker任务，mesos-slave无法成功启动docker任务，能够从mesos-slave的日志中看到没有权限这种错误。
+13、mesos-slave从现在来看最好不要运行在docker容器中，因为mesos-slave运行在docker容器中，则由mesos-slave执行的任务，都是在mesos-slave这个docker容器内启动的，从现在来看这个带来了几个问题：1）、mesos-slave这个容器在出现问题而停止时，上面所有的任务也会随着容器的停止而停止；2）、如果用mesos-slave启动的是docker任务，则要求mesos-slave这个容器中安装了docker环境，因为mesos-slave不会使用物理机上的docker（网上也有人在问如何在容器内启用物理机的docker而不是在这个容器中再安装docker，看他们讨论的结果像是实现了这个功能，不过启动的容器仍然隶属于slave这个容器）；3）、在docker容器中再启动docker容器部署服务，这种方式个人还不清楚跟直接在物理机上启动容器会不会存在一些坑或者限制，这些还不清楚；因此综合以上3个观点，不建议在docker中启动mesos-slave。
+13.1、mesos-slave在容器中运行，由于mesos中使用docker容器是最终转化为对应的docker命令执行，因此将主机的docker相关文件映射到mesos-slave容器中即可实现使用主机的docker，不过还有一个问题，这种方式启动的容器会不会随着mesos-slave容器的停止而停止，这个问题需要简单知晓docker运行原理就能明白，运行docker用户主要接触的两部分是cli和daemon，而且docker容器是由deamon启动的，因此deamon所在的环境决定了docker容器启动的环境，我们通过映射这种方式使得容器内部可以使用主机的docker，其实只是将cli端放到了容器中，daemon默认是监听unix:///var/run/docker.sock，因此通过将主机的docker相关文件挂载到容器中这种方式，可以实现容器内启动容器外服务的目的。我擦，刚刚的情况貌似就是容器的不安全因素的一个实际的运用...，在容器内操作主机的进程，这个权限不低，因此docker运行时也有些权限相关的设置需要注意，不是随便配置就能用的。首先由于用的是centos，docker在centos中依赖device-mapper，而通过docker hub上下载的centos7本身没有依赖的device-mapper相关库文件，会报如下类似的错误“docker: error while loading shared libraries: libdevmapper.so.1.02”，安装device-mapper即可，其次docker是在root用户下的，且挂载相关文件为“/var/run/docker.sock”、“/usr/bin/docker”、“/sys:/sys:ro”，基本上你挂载的时候需要root账户，且在docker内也需要root账户，而且docker.sock的文件访问需要docker的--privileged=true支持，不然没权限，最后mesos的framework在启动的时候需要设置用户，这样你最好在slave的容器中添加一个普通账户供framework使用。上面提到的这些权限应该有一定的方式避免，不过由于测试没有再详细做，但是有个方向，如docker运行权限交给普通账户；避免使用docker.sock文件，通过让Docker Daemon设置监听TCP；以及容器内使用普通账户。最终在docker中运行mesos-slave的命令为（这个是我测试用的，权限等一些什么的很宽松）：sudo docker run -d --net=host --privileged=true -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker -v /sys:/sys:ro 192.168.19.34:5000/mesos:private mesos-slave --ip=172.16.0.129 --master=zk://172.16.0.128:2182/mesos-master --containerizers=docker,mesos --log_dir=/mesos-log --work_dir=/mesos-slave-data --hostname=slave-172.16.0.129
+14、marathon安装和运行：marathon直接下载官方包，bin/start就是启动程序，运行命令为：marathon-0.10.0/bin/start --master zk://<host>:<port>,...,<hostX>:<portX>/<mesos-master-path> --zk zk://<host>:<port>,...,<hostX>:<portX>/<path>，其中--master参数表示是mesos-master的zk配置（在没有使用zk的时候可以直接配置master的ip和port，这些细节配置可以到官网文档中看到）；其中--zk参数表示marathon要配置的zk。在运行marathon时还有两个环境变量需要配置“MESOS_NATIVE_JAVA_LIBRARY”和“LIBPROCESS_IP”，MESOS_NATIVE_JAVA_LIBRARY需要设置mesos的lib库文件位置：mesos-build/src/.lib/libmesos.so，这里mesos-build是我个人的mesos构建的目录，如果没有配置这个环境变量，启动marathon会报错；LIBPROCESS_IP设置的本机ip，相当于mesos启动参数中的--ip配置，由于在marathon中没有这个参数配置，只能通过LIBPROCESS_IP这个环境变量来设置，如果没有配置，在启动marathon会看到相关warn日志，并且marathon会默认用127.0.0.1这个环路，这就会导致不再同一台机器上的marathon和mesos无法通信（具体这个参数影响mesos和marathon哪些方面的消息通信，没有仔细看，不过至少影响了marathon提交任务）。启动成功之后，可以用浏览器打开http://<marathon-ip>:8080就可以看到marathon页面。
+
+
+15、通过marathon提交任务：首先是直接通过marathon页面提交任务，页面比较简单，一些高级功能无法使用，需要用RESTFUL接口进行操作，页面上的操作可以跟着官网文档操作，非常简单。
+16、使用RESTFUL接口提交marathon任务，这里只简单列出提交一个任务作为一个入门：
+============================================
+通过curl命令提交一个app（就是前面我所谓的marathon任务）:
+curl -X POST -H "Content-Type: application/json" -d @test_docker_app.json 172.16.4.135:8080/v2/apps
+这样就提交了一个app，命令解释：提交app是以POST方式进行，-H指定的Content-Type为application/json是由于数据内容是json格式，POST提交的数据在test_docker_app.json中，最后是<ip>:<port>/v2/apps，最后可以在marathon页面查看已经提交的app
+test_docker_app.json的文件内容可以为：（内容意思是启动一个docker容器运行python的SimpleHTTPServer，网卡用host模式，cpu限制0.2个cpu，50M内存，启动一个实例）
+{
+  "id": "httpserver",
+  "cmd": "python -m SimpleHTTPServer 8000",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "192.168.19.34:5000/centos:centos7",
+      "network": "HOST"
+    }
+  },
+  "instances": 1,
+  "cpus": 0.2,
+  "mem": 50
+}
+============================================

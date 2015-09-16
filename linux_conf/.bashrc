@@ -12,7 +12,7 @@ __rmlogger ()
 
 __myrm () 
 { 
-    local limit=50;
+    local limit=500000;
     if [ -d $HOME/.local/share/Trash/files ]; then
         trash="$HOME/.local/share/Trash/files";
     else

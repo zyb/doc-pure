@@ -6,7 +6,11 @@ XTerm*faceNameDoublesize: WenQuanYi Micro Hei Mono:pixelsize=15
 XTerm*background: #202020
 XTerm*foreground: #FFFFFF
 
-XTerm*SaveLines: 10000
+XTerm*SaveLines: 100000
+
+XTerm*scrollBar:true
+XTerm*rightScrollBar:true
+XTerm*thickness: 3
 
 *VT100*translations: #override \n\
 Shift <KeyPress> Insert:insert-selection(CLIPBOARD, CUT_BUFFER1) \n\
