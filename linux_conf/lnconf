@@ -1,0 +1,37 @@
+#! /bin/bash
+
+if [ "" == "$1" ]; then
+	echo "need 1 params!"
+	exit 1
+fi
+
+confpath="$1/doc-pure/linux_conf"
+
+if [ ! -d "$confpath" ]; then
+	echo "$conpath not exist!"
+	exit 1
+fi
+
+function lnconf()
+{
+	if [[ "" == "$1" || "" == "$2" ]]; then
+		return 1
+	fi
+
+	local src="$1"
+	local dst="$2"
+
+	if [ -f "$dst" ]; then
+		mv $src ${src}-bak
+		ln -s $dst $src
+	else
+		echo "'$dst' not exist! '$src' not change."
+	fi
+}
+
+lnconf ~/.bashrc $confpath/.bashrc
+lnconf ~/.bash_profile $confpath/.bash_profile
+lnconf ~/.vimrc $confpath/.vimrc
+lnconf ~/.xinitrc $confpath/.xinitrc
+lnconf ~/.Xresources $confpath/.Xresources
+lnconf ~/.config/herbstluftwm/autostart $confpath/autostart-herbstluftwm

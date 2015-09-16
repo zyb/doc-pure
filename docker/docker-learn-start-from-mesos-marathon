@@ -75,3 +75,5 @@ test_docker_app.json的文件内容可以为：（内容意思是启动一个doc
   "mem": 50
 }
 ============================================
+
+17、根据mesos框架写了一个启动docker服务的测试framework，见“TestScheduler.java”，只包含一个简单的Scheduler，Executor以及SchedulerDriver和ExecutorDriver只是简单了解了一下。
