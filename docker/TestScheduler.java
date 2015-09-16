@@ -27,7 +27,7 @@ import org.apache.mesos.SchedulerDriver;
 public class TestScheduler implements Scheduler {
   public boolean runFlag = false;
   
-  public static final String masterURI = "172.16.0.128:5050";
+  public static final String masterURI = "zk://172.16.0.128:2181/mesos-master";
   
   public static final double CPUS_PER_TASK = 0.25;
   public static final double MEM_PER_TASK = 32;
@@ -129,9 +129,7 @@ public class TestScheduler implements Scheduler {
     System.out.println("Status update: task " + status.getTaskId().getValue()
         + " state is " + status.getState());
         
-    if (status.getState() == TaskState.TASK_RUNNING) {
-      System.out.println("Task " + status.getTaskId().getValue() + " running.");
-    } else if (status.getState() == TaskState.TASK_FINISHED) {
+    if (status.getState() == TaskState.TASK_FINISHED) {
       System.out.println("Task " + status.getTaskId().getValue() + " finished");
       driver.stop();
     } else if (status.getState() == TaskState.TASK_LOST
@@ -143,15 +141,6 @@ public class TestScheduler implements Scheduler {
           + status.getReason().getValueDescriptor().getName() + "'"
           + " from source '" + status.getSource().getValueDescriptor().getName()
           + "'" + " with message '" + status.getMessage() + "'");
-      driver.abort();
-    } else {
-      System.err.println("Aborting because task "
-          + status.getTaskId().getValue() + " is in unexpected state "
-          + status.getState().getValueDescriptor().getName() + " with reason '"
-          + status.getReason().getValueDescriptor().getName() + "'"
-          + " from source 'driver.abort();"
-          + status.getSource().getValueDescriptor().getName() + "'"
-          + " with message '" + status.getMessage() + "'");
       driver.abort();
     }
   }
@@ -188,11 +177,17 @@ public class TestScheduler implements Scheduler {
   }
   
   public static void main(String[] args) {
+    String master = masterURI;
+    if (args.length > 0) {
+      master = args[0];
+    }
+    System.out.println("Use master: " + master);
+    
     FrameworkInfo frameworkInfo = FrameworkInfo.newBuilder()
         .setName("zybDockerScheduler").setUser("root").build();
         
     MesosSchedulerDriver driver = new MesosSchedulerDriver(new TestScheduler(),
-        frameworkInfo, masterURI);
+        frameworkInfo, master);
         
     int status = driver.run() == Status.DRIVER_STOPPED ? 0 : 1;
     

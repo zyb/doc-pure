@@ -1,0 +1,12 @@
+#! /bin/bash
+
+if [[ "" == "$1"  || "" == "$2" || "" == "$3" ]]; then
+        echo "need 3 param."
+        exit 1
+fi
+
+localip=172.16.0.$1
+zkip="172.16.0.$2"
+mesoshome="$3"
+
+LIBPROCESS_IP=$localip java -cp ./TestScheduler-1.0-SNAPSHOT.jar:$mesoshome/src/java/target/mesos-0.23.0.jar:$mesoshome/src/java/target/protobuf-java-2.5.0.jar -Djava.library.path=$mesoshome/src/.libs/ com.zyb.mesos.docker.TestScheduler "zk://$zkip:2181/mesos-master"
