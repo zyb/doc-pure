@@ -90,7 +90,7 @@ alias eclipse='$HOME/software/eclipse/eclipse'
 #export JAVA_HOME=/usr/local/jdk7
 #export JRE_HOME=$JAVA_HOME/jre
 
-export GOROOT=/usr/local/go
+export GOROOT=/usr/lib/go
 
 export GOPATH=/home/zyb/gopath:/home/zyb/gows
 
