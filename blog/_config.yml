@@ -7,7 +7,7 @@ title: zyb
 subtitle: 
 description: Nothing
 author: zyb
-language:
+language: zh-Hans
 timezone:
 
 # URL
@@ -63,7 +63,12 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: landscape
+theme: next
+
+# Social links
+social:
+  github: https://github.com/zyb
+  weibo: http://weibo.com/zybs
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
