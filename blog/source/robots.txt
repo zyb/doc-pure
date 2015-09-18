@@ -1,0 +1,11 @@
+# hexo robots.txt
+User-agent: *
+Allow: /
+Allow: /archives/
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /fancybox/
+
+Sitemap: http://zyb.github.io/sitemap.xml
+Sitemap: http://zyb.github.io/baidusitemap.xml
