@@ -5,3 +5,6 @@ blog/*.log
 blog/node_modules/
 blog/public/
 blog/.deploy*/
+blog/themes
+blog/scaffolds
+blog/.gitignore
