@@ -1,0 +1,17 @@
+安装hexo
+1、安装npm，hexo是nodejs写的
+2、安装hexo，npm install -g hexo hexo-cli --registry=https://registry.npm.taobao.org，如果有权限问题加上sudo
+3、进入到将要创建博客的目录（github中创建博客，先在github上创建相应的博客repo），在这个目录中执行hexo init，初始化hexo，这时当前目录下会生成博客相关的文件
+4、执行完hexo init之后，要紧接着执行npm install --registry=https://registry.npm.taobao.org
+
+插件安装：
+安装便于自动部署到Github的插件：npm install hexo-deployer-git --save --registry=https://registry.npm.taobao.org
+安装atom生成插件，便于感兴趣的小伙伴们订阅：npm install hexo-generator-feed --save --registry=https://registry.npm.taobao.org
+安装博客首页生成插件：npm install hexo-generator-index --save --registry=https://registry.npm.taobao.org
+安装归档生成插件：npm install hexo-generator-archive --save --registry=https://registry.npm.taobao.org
+安装tag生成插件：npm install hexo-generator-tag --save --registry=https://registry.npm.taobao.org
+安装category生成插件：npm install hexo-generator-category --save --registry=https://registry.npm.taobao.org
+安装Sitemap文件生成插件：npm install hexo-generator-sitemap --save --registry=https://registry.npm.taobao.org
+安装百度Sitemap文件生成插件，因为普通的Sitemap格式不符合百度的要求：npm install hexo-generator-baidu-sitemap --save --registry=https://registry.npm.taobao.org
+
+这些插件也需要在_config.yml中配置开启

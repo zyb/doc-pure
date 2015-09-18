@@ -37,6 +37,7 @@ hc keybind $Mod-Ctrl-Shift-Down spawn amixer -c 0 -- sset Master playback 2dB-
 hc keybind $Mod-Ctrl-Shift-Left spawn amixer sset Master mute
 hc keybind $Mod-Ctrl-Shift-Right spawn amixer sset Master unmute
 hc keybind $Mod-Ctrl-Shift-e spawn ~/software/eclipse/eclipse
+hc keybind $Mod-Ctrl-Shift-l spawn liteide
 
 # basic movement
 # focusing clients
@@ -165,6 +166,7 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
 hc rule class=Firefox tag=1
 hc rule class=Eclipse tag=4
+hc rule class=liteide tag=4
 hc rule instance=TM.exe tag=5
 hc rule class=Thunderbird tag=6
 hc rule title="rdesktop - 172.16.59.13" tag=7
