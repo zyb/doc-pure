@@ -10,11 +10,13 @@ author: zyb
 language: zh-Hans
 timezone:
 
+avatar: /uploads/icon.png
+
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://zyb.github.io
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :year/:month/:day-:title.html
 permalink_defaults:
 
 # Directory
@@ -70,6 +72,12 @@ social:
   github: https://github.com/zyb
   weibo: http://weibo.com/zybs
 
+# title, chinese available
+links_title: Links
+# links
+links:
+  coolshell: http://coolshell.cn/
+
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
@@ -77,6 +85,15 @@ deploy:
   repository: https://github.com/zyb/zyb.github.io.git
   branch: master
   message: Site updated at {{ now("YYYY-MM-DD HH:mm:ss") }}
+
+# swiftype search
+swiftype_key: re-tvSkmuYUrNrrdWdYN
+
+# duoshuo 
+duoshuo_shortname: zyb
+
+# baidu analytics
+baidu_analytics: 2e764f6a16563cd01fe164d95d885edd
 
 # feed
 feed:
@@ -89,3 +106,6 @@ sitemap:
 path: sitemap.xml
 baidusitemap:
 path: baidusitemap.xml
+
+# since
+since: 2015

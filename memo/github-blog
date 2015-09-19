@@ -1,8 +1,9 @@
-安装hexo
-1、安装npm，hexo是nodejs写的
-2、安装hexo，npm install -g hexo hexo-cli --registry=https://registry.npm.taobao.org，如果有权限问题加上sudo
-3、进入到将要创建博客的目录（github中创建博客，先在github上创建相应的博客repo），在这个目录中执行hexo init，初始化hexo，这时当前目录下会生成博客相关的文件
-4、执行完hexo init之后，要紧接着执行npm install --registry=https://registry.npm.taobao.org
+安装hexo:
+安装npm，hexo是nodejs写的
+> npm install hexo-cli -g --registry=https://registry.npm.taobao.org
+> hexo init blog
+> cd blog
+> npm install --registry=https://registry.npm.taobao.org
 
 hexo命令：
 hexo g #generate
@@ -21,11 +22,14 @@ hexo new page <name> #new page
 
 这些插件也需要在_config.yml中配置开启
 
-主题安装：
+next主题安装：
 next主题：git clone https://github.com/iissnan/hexo-theme-next.git themes/next
 将主题放到themes目录下，具体名称是叫next还是其他的都随意，只是要跟_config.yml配置的一致
 next主题优化: 语言设置、next主题schema设置为Mist、设置highlight_theme
 
 添加 robots.txt
 添加 404.html
+
+第三方插件：
+评论、分享、统计
 

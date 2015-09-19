@@ -9,6 +9,7 @@ Disallow: /css/
 Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
+Disallow: /404.html
 
 Sitemap: http://zyb.github.io/sitemap.xml
 Sitemap: http://zyb.github.io/baidusitemap.xml
