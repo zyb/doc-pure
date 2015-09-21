@@ -7,3 +7,14 @@ blog/public/
 blog/.deploy*/
 blog/scaffolds
 blog/.gitignore
+
+blog/themes/
+!blog/themes/next
+blog/themes/next/.DS_Store
+blog/themes/next/.idea/
+blog/themes/next/*.log
+blog/themes/next/node_modules/
+
+# Ignore unused verdors' files
+blog/themes/next/source/vendors/fancybox/*
+!blog/themes/next/source/vendors/fancybox/source/
