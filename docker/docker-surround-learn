@@ -1,4 +1,7 @@
 使用的环境为centos7，写这个文档时正在做的事情是搭建试用mesos（Marathon）+docker的环境，调研docker的集群资源管理（这里用的marathon为0.10.0版本，mesos用的是0.23.0版本）
+文档中继续加入了kubernetes安装记录，kubernetes使用的是1.0.6，其中安装kube-ui时涉及到的kube-ui和puase两个镜像版本分别为：gcr.io/google_containers/kube-ui:v1.1和gcr.io/google_containers/pause:0.8.0，etcd用的是2.2.0版本
+文档中继续加入了docker集成flannel的安装记录，其中flannel使用的0.5.3版本，etcd用的是2.2.0版本
+
 过程中萌发出来的想法是一切皆docker的想法，包括了：1、使用docker来搭建一个私有的docker-registry；2、docker搭建mesos和Marathon；0、在一切皆容器之前，在还没有私有docker-registery，需要先从官方下载一个centos容器搭建docker-registry，这是在国内为了加速使用daocloud的景象加速。
 ============================================
 一些备忘：
@@ -77,3 +80,32 @@ test_docker_app.json的文件内容可以为：（内容意思是启动一个doc
 ============================================
 
 17、根据mesos框架写了一个启动docker服务的测试framework，见“TestScheduler.java”，只包含一个简单的Scheduler，Executor以及SchedulerDriver和ExecutorDriver只是简单了解了一下。
+
+18、kubernets安装记录（这里没有使用flannel，因此这个记录更适合在单机上部署Master和Minions，多机部署会有些功能受到影响，因为kubernetes内部一些通信使用的是虚拟网络，会需要flannel）：首先启动etcd（貌似只有kube-apiserver用到了etcd，还没尝试不用etcd是不是也可以），接着启动apiserver，继续启动controller-manager、scheduler，刚的三个都是master节点上的，其中后两个都依赖apiserver，最后启动Minions上的两个服务：proxy和kubelet；我用的是1.0.6版本，启动参数参考下面：
+===========================================
+kubernetes/server/bin/kube-apiserver --insecure-bind-address=<host ip> --etcd-prefix=/k8sapis --etcd-servers=http://<etcd ip>:<port> --master-service-namespace="k8sns" --service-cluster-ip-range=<CIDR IP range, such as:172.16.0.0/24>
+
+kubernetes/server/bin/kube-controller-manager --address=<host ip> --master=<apiserver ip>:8080  #由于启动apiserver时候没有单独指定端口，默认端口为8080
+
+kubernetes/server/bin/kube-scheduler --address=<host ip> --master=$<apiserver ip>:8080
+
+kubernetes/server/bin/kube-proxy --bind-address=<host ip> --master=$<apiserver ip>:8080
+
+kubernetes/server/bin/kubelet --address=<host ip> --api-servers=<apiserver ip>:8080 --root-dir=./kubelet-root --hostname-override=<hostname>
+==========================================
+我遇到的几个问题说一下：
+proxy和kubelet可能是需要root权限（我的环境是需要的）
+apiserver启动如果遇到“Unable to generate self signed cert: mkdir /var/run/kubernetes: permission denied”错误，要么手动创建一个这个目录，然后将目录的所有者给启动kubernetes的用户，要么使用--tls-cert-file参数指定一个启动kubernetes的用户有权使用的目录
+controller-manager启动会遇到“Failed to start service controller: ServiceController should not be run without a cloudprovider”，可以忽略，暂时不影响使用（由于在写这个文档的时候也是刚刚接触kubernetes，还没搞清楚这个cloudprovider是个什么东西）
+kubelet服务启动会遇到“ Image garbage collection failed: unable to find data for container /”错误，这个也可以忽略，刚刚使用，现在也还不知道这个是个什么错误
+
+19、使用kube-ui，启动命令：
+==========================================
+kubernetes/server/bin/kubectl create -f kubernetes/cluster/addons/kube-ui/kube-ui-rc.yaml
+kubernetes/server/bin/kubectl create -f kubernetes/cluster/addons/kube-ui/kube-ui-svc.yaml
+==========================================
+由于kube-ui的启动使用到了gcr.io/google_containers/kube-ui:v1.1和gcr.io/google_containers/pause:0.8.0这两个镜像，国内使用需要翻墙，不能翻墙的，kube-ui在时速云的仓库中有v1.1的镜像：docker pull index.tenxcloud.com/tenxcloud/kube-ui:v1.1；时速云中也有pause的镜像不过版本是0.1.0的，pause镜像可以在docker.io/kubernetes中找到：docker pull kubernetes/pause:latest，只有latest版本，不清楚具体是哪个版本，不过可以本地重新tag为0.8.0，依然可以用，0.8.0版本的image id应该是：2c40b0526b63，这个latest的image id是：6c4579af347b
+
+20、docker中使用flannel安装记录：
+flannel使用etcd存储配置数据和子网分配信息。启动etcd，在etcd中将flannel配置信息写入/coreos.com/network/config中，一个样例命令如下：etcdctl -C "http://172.16.0.128:2379" mk /coreos.com/network/config '{"Network":"10.0.0.0/8", "Backend":{"Type":"vxlan", "VNI":1}}'，这条命令指明了etcd服务是172.16.0.128：2379，子网是10.0.0.0/8，使用vxlan方式，在etcd中写入flannel网络配置只需要一次，后续只需要启动连接到etcd即可。
+启动flannel：flanneld --etcd-endpoints="http://172.16.0.128:2379" --iface="eth0"，如果出错可能是没有权限（具体看错误提示）， 启动后默认/run/flannel/subnet.env会生成，文件中其实就是docker启动需要的子网环境变量，方便docker配置使用，通过命令：source /run/flannel/subnet.env使得环境变量生效，然后就是docker-daemon配置对应的参数；重新设置docker-daemon需要重启docker-daemon，在关闭docker-daemon之后，先删除docker0：ip link del docker0，然后在docker-daemon启动参数中增加以下两个参数启动docker-daemon：--bip=${FLANNEL_SUBNET} --mtu=${FLANNEL_MTU}，其中FLANNEL_SUBNET和FLANNEL_MTU这两个变量就是subnet.env中的环境变量，如，启动docker-daemon命令：docker -d --bip=${FLANNEL_SUBNET} --mtu=${FLANNEL_MTU}

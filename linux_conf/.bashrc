@@ -84,6 +84,8 @@ alias grep='grep --color=auto'
 alias tssh='ssh binzhang3@172.16.59.13 -p 21722'
 alias tscp='function __mytscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P 21722 $1 binzhang3@172.16.59.13:~/zybtrans/$2; }; __mytscp'
 alias ttscp='function __myttscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P 21722 binzhang3@172.16.59.13:~/zybtrans/$2 $1; }; __myttscp'
+alias vm1='ssh z@172.16.0.130'
+alias vm2='ssh z@172.16.0.131'
 
 alias eclipse='$HOME/software/eclipse/eclipse'
 

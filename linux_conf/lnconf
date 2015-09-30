@@ -35,3 +35,8 @@ lnconf ~/.vimrc $confpath/.vimrc
 lnconf ~/.xinitrc $confpath/.xinitrc
 lnconf ~/.Xresources $confpath/.Xresources
 lnconf ~/.config/herbstluftwm/autostart $confpath/autostart-herbstluftwm
+
+if [0 == 1 ]; then
+	ln -s /home/zyb/d/git-warehouse/gows/ ~/gows
+	ln -s /home/zyb/d/git-warehouse/gopath/ ~/gopath
+fi
