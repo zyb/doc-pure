@@ -89,6 +89,8 @@ alias vm2='ssh z@172.16.0.131'
 
 alias eclipse='$HOME/software/eclipse/eclipse'
 
+alias astah='$HOME/software/astah/astah_professional/astah'
+
 #export JAVA_HOME=/usr/local/jdk7
 #export JRE_HOME=$JAVA_HOME/jre
 
