@@ -1,11 +1,12 @@
 #! /bin/bash
 
 if [ "" == "$1" ]; then
-	echo "need 1 params!"
+	echo "need 1 params! <github-clone path>"
 	exit 1
 fi
 
 confpath="$1/doc-pure/linux_conf"
+docpurepath="$1/doc_pure"
 
 if [ ! -d "$confpath" ]; then
 	echo "$conpath not exist!"
@@ -35,8 +36,12 @@ lnconf ~/.vimrc $confpath/.vimrc
 lnconf ~/.xinitrc $confpath/.xinitrc
 lnconf ~/.Xresources $confpath/.Xresources
 lnconf ~/.config/herbstluftwm/autostart $confpath/autostart-herbstluftwm
+lnconf ~/qs $docpurepath/qs
 
 if [0 == 1 ]; then
 	ln -s /home/zyb/d/git-warehouse/gows/ ~/gows
 	ln -s /home/zyb/d/git-warehouse/gopath/ ~/gopath
+
+	ln -s /home/zyb/d/git-warehouse/vimplugin/Vundle.vim ~/.vim/bundle/Vundle.vim
+	ln -s /home/zyb/d/git-warehouse/vimplugin/colors/molokai/colors/molokai.vim ~/.vim/colors/molokai.vim
 fi
