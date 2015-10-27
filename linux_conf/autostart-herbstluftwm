@@ -38,6 +38,8 @@ hc keybind $Mod-Ctrl-Shift-Left spawn amixer sset Master mute
 hc keybind $Mod-Ctrl-Shift-Right spawn amixer sset Master unmute
 hc keybind $Mod-Ctrl-Shift-e spawn ~/software/eclipse/eclipse
 hc keybind $Mod-Ctrl-Shift-l spawn liteide
+hc keybind $Mod-Ctrl-Shift-s spawn rapidsvn
+hc keybind $Mod-e spawn pcmanfm
 
 # basic movement
 # focusing clients
