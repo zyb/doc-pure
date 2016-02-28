@@ -5,8 +5,8 @@ if [ "" == "$1" ]; then
 	exit 1
 fi
 
-confpath="$1/doc-pure/linux_conf"
-docpurepath="$1/doc_pure"
+confpath="$1/linux_conf"
+docpurepath="$1"
 
 if [ ! -d "$confpath" ]; then
 	echo "$conpath not exist!"
