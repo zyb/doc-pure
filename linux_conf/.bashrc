@@ -63,23 +63,14 @@ __myrm ()
     done
 }
 
-alias ls='ls --color=auto'
-#PS1='[\u@\h \W]\$ '
+alias rm='__myrm'
 
+#PS1='[\u@\h \W]\$ '
+alias ls='ls --color=auto'
 alias ll='ls -laF --color=auto'
 alias l='ls -lF --color=auto'
 alias vi='vim'
-
-alias rm='__myrm'
-
 alias grep='grep --color=auto'
-
-#alias eclipse='/usr/local/eclipse/eclipse'
-#alias uml='java -jar /home/zyb/software/plantuml.jar -gui'
-#alias wego='/home/zyb/gopath/bin/wego && echo && date && echo'
-#alias apmngr='/home/zyb/d/git-warehouse/otherporj/create_ap/create_ap'
-#alias apstart='sudo /home/zyb/d/git-warehouse/otherporj/create_ap/create_ap --hidden wlp3s0b1 enp12s0 zarch ggty1234'
-#alias apstop='sudo /home/zyb/d/git-warehouse/otherporj/create_ap/create_ap --stop wlp3s0b1'
 
 alias tssh='ssh binzhang3@172.16.59.13 -p 21722'
 alias tscp='function __mytscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P 21722 $1 binzhang3@172.16.59.13:~/zybtrans/$2; }; __mytscp'
@@ -87,16 +78,13 @@ alias ttscp='function __myttscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo
 alias vm1='ssh z@172.16.0.130'
 alias vm2='ssh z@172.16.0.131'
 
+#alias eclipse='/usr/local/eclipse/eclipse'
 alias eclipse='$HOME/software/eclipse/eclipse'
-
 alias astah='$HOME/software/astah/astah_professional/astah'
 
 #export JAVA_HOME=/usr/local/jdk7
 #export JRE_HOME=$JAVA_HOME/jre
-
 export GOROOT=/usr/lib/go
-
 export GOPATH=/home/zyb/gopath:/home/zyb/gows
-
 export LITEIDE_HOME=/usr/local/liteide
 
