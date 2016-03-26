@@ -29,7 +29,7 @@ hc keybind $Mod-Ctrl-Shift-f spawn firefox
 hc keybind $Mod-Ctrl-Shift-m spawn thunderbird
 hc keybind $Mod-Ctrl-Shift-t spawn ~/qs/tm.sh
 hc keybind $Mod-Ctrl-Shift-k spawn ~/qs/killtm.sh
-hc keybind $Mod-Ctrl-Shift-v spawn vmware
+hc keybind $Mod-Ctrl-Shift-v spawn VBoxManage startvm win10 --type gui
 hc keybind $Mod-Ctrl-Shift-r spawn ~/qs/rdesktop.sh
 hc keybind $Mod-Ctrl-Shift-d spawn ~/qs/rdesktop.sh kill
 hc keybind $Mod-Ctrl-Shift-Up spawn amixer -c 0 -- sset Master playback 2dB+
@@ -170,9 +170,10 @@ hc rule class=Firefox tag=1
 hc rule class=Eclipse tag=4
 hc rule class=liteide tag=4
 hc rule instance=TM.exe tag=5
+hc rule class='Vmware' tag=5
+hc rule class='VirtualBox' tag=5
 hc rule class=Thunderbird tag=6
 hc rule title="rdesktop - 172.16.59.13" tag=7
-hc rule class='Vmware' tag=7
 hc rule class='INodeClient' tag=9
 
 # unlock, just to be sure
@@ -194,4 +195,4 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     "$panel" $monitor &
 done
 #fi
-
+#compton

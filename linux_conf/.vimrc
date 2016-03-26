@@ -76,8 +76,8 @@ map <A-h> :NERDTreeToggle<CR>
 let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end	" close vim if the only window left open is a NERDTree
 
-Plugin 'majutsushi/tagbar'
-map <A-l> :TagbarToggle<CR>
+" Plugin 'majutsushi/tagbar'
+" map <A-l> :TagbarToggle<CR>
 " let g:tagbar_autofocus = 1
 
 Plugin 'fatih/vim-go'
