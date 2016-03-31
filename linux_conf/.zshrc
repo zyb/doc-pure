@@ -26,8 +26,8 @@ alias tssh='ssh binzhang3@172.16.59.13 -p 21722'
 alias tscp='function __mytscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P 21722 $1 binzhang3@172.16.59.13:~/zybtrans/$2; }; __mytscp'
 alias ttscp='function __myttscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P 21722 binzhang3@172.16.59.13:~/zybtrans/$2 $1; }; __myttscp'
 
-#export JAVA_HOME=/usr/local/jdk7
-#export JRE_HOME=$JAVA_HOME/jre
+export JAVA_HOME=/usr/lib/jvm/java-7-jdk
+export JRE_HOME=$JAVA_HOME/jre
 export GOROOT=/usr/lib/go
 export GOPATH=/home/zyb/zdata/gopath:/home/zyb/zdata/gows
 export LITEIDE_HOME=/usr/local/liteide

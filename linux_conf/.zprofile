@@ -8,4 +8,4 @@ export PATH=$GOROOT/bin:$PATH
 export PATH=$LITEIDE_HOME/bin:$PATH
 
 # auto startx
-#[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
