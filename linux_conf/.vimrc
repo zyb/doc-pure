@@ -64,12 +64,12 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Plugin 'Powerline'
-" Plugin 'powerline/powerline'
-" set laststatus=2
-" set t_Co=256
-" let g:Powerline_symbols = 'unicode'
-" set encoding=utf8
-" set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
+Plugin 'powerline/powerline'
+set laststatus=2
+set t_Co=256
+let g:Powerline_symbols = 'unicode'
+set encoding=utf8
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 
 Plugin 'scrooloose/nerdtree'
 map <A-h> :NERDTreeToggle<CR>

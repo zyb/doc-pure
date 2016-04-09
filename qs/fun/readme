@@ -1,0 +1,20 @@
+# 输出有ascii码组成的艺术字
+toilet hello,world
+
+# 阅读输入的英文字符
+espeak 'hell, world'
+
+# 一款不一样的音乐播放器
+bb
+
+# 列出最常用的10个命令
+history | awk '{print $2}' | sort | uniq -c | sort -rn | head -10
+
+# 监控所有被进程id使用的文件
+pv -d $PID
+
+# SSH connection through host in the middle
+ssh -t reachable_host ssh unreachable_host
+
+# transfer url for upload file[use with shell; share files with a url; 10G upload; 14 days store; free; encrypt]
+https://transfer.sh/
