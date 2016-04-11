@@ -1,23 +1,18 @@
 #! /bin/bash
 
 if [ "" = "$1" ]; then
-	echo "need lantern path"
-	exit 1
+	default="/home/zyb/d/github/lantern/lantern_linux_amd64"
+	lpath="$default"
 else
-	if [ "d" = "$1" ]; then
-		default="/home/zyb/d/github/lantern/lantern_linux_amd64"
-		lpath="$default"
-	else
-		lpath="$1"
-	fi
+	lpath="$1"
 fi
 
-exec_name="lantern_linux_amd64"
-exec_pid=$(pidof $exec_name)
+exec_pid=$(pidof $lpath)
 if [ "" = "$exec_pid" ]; then
 	setsid $lpath > /dev/null 2>&1 &
-	exec_pid=$(pidof $exec_name)
+	sleep 0.5
+	exec_pid=$(pidof $lpath)
 	echo "start : $exec_pid [$lpath]"
 else
-	echo "'$exec_name' already run: $exec_pid [$lpath]"
+	echo "'$lpath' already run: $exec_pid"
 fi

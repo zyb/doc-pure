@@ -7,8 +7,8 @@ export GOPATH=/home/zyb/zdata/gopath:/home/zyb/zdata/gows
 export LITEIDE_HOME=/usr/local/liteide
 
 alias ls='ls --color=auto'
-alias ll='ls -laF --color=auto'
-alias l='ls -lF --color=auto'
+alias ll='ls -lahF --color=auto'
+alias l='ls -lhF --color=auto'
 alias grep='grep --color=auto'
 
 tsship="172.16.59.13"

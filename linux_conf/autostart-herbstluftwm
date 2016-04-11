@@ -39,7 +39,7 @@ hc keybind $Mod-Alt-v spawn VBoxManage startvm win10 --type gui
 hc keybind $Mod-Alt-r spawn ~/qs/rdesktop.sh
 hc keybind $Mod-Alt-d spawn ~/qs/rdesktop.sh kill
 #hc keybind $Mod-Alt-s spawn rapidsvn
-#hc keybind $Mod-Alt-a spawn ~/qs/screenshot.sh
+hc keybind $Mod-Alt-a spawn ~/qs/screenshot.sh
 #hc keybind $Mod-Alt-t spawn ~/qs/tm.sh
 #hc keybind $Mod-Alt-k spawn ~/qs/killtm.sh
 
@@ -173,6 +173,11 @@ hc rule class=Eclipse tag=4
 hc rule title=Eclipse tag=4
 hc rule class=liteide tag=4
 hc rule class=Codeblocks tag=4
+hc rule class=Wps tag=4
+hc rule class=Et tag=4
+hc rule class=Wpp tag=4
+hc rule class=Zathura tag=4
+hc rule class=Pcmanfm tag=4
 hc rule class=Vmware tag=5
 hc rule class=VirtualBox tag=5
 hc rule instance=TM.exe tag=5

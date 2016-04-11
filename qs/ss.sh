@@ -2,4 +2,15 @@
 
 curr=$(dirname $_)
 
-setsid sslocal -c $curr/ss/pytrade.xyz > /dev/null 2>&1 &
+exec_pid=$(ps aux | grep sslocal | grep -v grep | awk '{print $2}')
+exec_qt5=$(pidof ss-qt5)
+
+if [[ "" = "$exec_pid" && "" = "$exec_qt5" ]]; then
+	tmpfile=$(mktemp /tmp/sstmp/sslog.XXXXXXXXXXXXX)
+	setsid sslocal -c $curr/ss/pytrade.xyz > $tmpfile 2>&1 &
+	sleep 0.5
+	exec_pid=$(ps aux | grep sslocal | grep -v grep | awk '{print $2}')
+	echo "sslocal start: $exec_pid, log: $tmpfile"
+else
+	echo "already run. sslocal: $exec_pid, ss-qt5: $exec_qt5"
+fi

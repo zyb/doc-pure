@@ -1,0 +1,9 @@
+{
+	"server": "jp.pytrade.xyz",
+	"server_port": 2710,
+	"password": "92ZWWl",
+	"method": "rc4-md5",
+	"local_address":"127.0.0.1",
+	"local_port":"12250",
+	"timeout":1000
+}
