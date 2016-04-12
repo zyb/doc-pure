@@ -42,6 +42,7 @@ hc keybind $Mod-Alt-d spawn ~/qs/rdesktop.sh kill
 hc keybind $Mod-Alt-a spawn ~/qs/screenshot.sh
 #hc keybind $Mod-Alt-t spawn ~/qs/tm.sh
 #hc keybind $Mod-Alt-k spawn ~/qs/killtm.sh
+hc keybind $Mod-Alt-b spawn ~/zdata/software/WebTorrent-linux-x64/WebTorrent
 
 # basic movement
 # focusing clients
@@ -185,6 +186,7 @@ hc rule class=Thunderbird tag=6
 hc rule class=rdesktop tag=7
 hc rule class=google-chrome tag=8
 hc rule class=INodeClient tag=9
+hc rule class=WebTorrent tag=9
 
 # unlock, just to be sure
 hc unlock
