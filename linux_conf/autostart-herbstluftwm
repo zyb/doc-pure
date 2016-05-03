@@ -28,7 +28,7 @@ hc keybind $Mod-Alt-Up spawn amixer -c 0 -- sset Master playback 2dB+
 hc keybind $Mod-Alt-Down spawn amixer -c 0 -- sset Master playback 2dB-
 hc keybind $Mod-Alt-Left spawn amixer set Master mute
 hc keybind $Mod-Alt-Right spawn amixer set Master unmute
-hc keybind $Mod-Alt-f spawn firefox
+hc keybind $Mod-Alt-f spawn ~/qs/firefox-cn.sh
 hc keybind $Mod-Alt-m spawn thunderbird
 hc keybind $Mod-Alt-e spawn eclipse
 hc keybind $Mod-e spawn pcmanfm
@@ -38,7 +38,7 @@ hc keybind $Mod-Alt-l spawn liteide
 hc keybind $Mod-Alt-v spawn VBoxManage startvm win10 --type gui
 hc keybind $Mod-Alt-r spawn ~/qs/rdesktop.sh
 hc keybind $Mod-Alt-d spawn ~/qs/rdesktop.sh kill
-#hc keybind $Mod-Alt-s spawn rapidsvn
+hc keybind $Mod-Alt-s spawn rapidsvn
 hc keybind $Mod-Alt-a spawn ~/qs/screenshot.sh
 #hc keybind $Mod-Alt-t spawn ~/qs/tm.sh
 #hc keybind $Mod-Alt-k spawn ~/qs/killtm.sh
