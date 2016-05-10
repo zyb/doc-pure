@@ -12,11 +12,14 @@ alias l='ls -lhF --color=auto'
 alias grep='grep --color=auto'
 
 tsship="172.16.59.13"
-tsshport=21722
-alias pssh='ssh binzhang3@$tsship -p $tsshport ssh'
-alias tssh='ssh binzhang3@$tsship -p $tsshport'
-alias tscp='function __mytscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P $tsshport $1 binzhang3@$tsship:~/zybtrans/$2; }; __mytscp'
-alias ttscp='function __myttscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P $tsshport binzhang3@$tsship:~/zybtrans/$2 $1; }; __myttscp'
+#tsshuser=binzhang3
+tsshuser=root
+#tsshport=21722
+tsshport=21622
+alias pssh='ssh $tsshuser@$tsship -p $tsshport ssh'
+alias tssh='ssh $tsshuser@$tsship -p $tsshport'
+alias tscp='function __mytscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P $tsshport $1 $tsshuser@$tsship:~/zybtrans/$2; }; __mytscp'
+alias ttscp='function __myttscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P $tsshport $tsshuser@$tsship:~/zybtrans/$2 $1; }; __myttscp'
 
 
 # self define 'rm'

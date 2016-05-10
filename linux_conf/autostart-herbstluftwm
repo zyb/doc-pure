@@ -32,10 +32,10 @@ hc keybind $Mod-Alt-f spawn ~/qs/firefox-cn.sh
 hc keybind $Mod-Alt-m spawn thunderbird
 hc keybind $Mod-Alt-e spawn eclipse
 hc keybind $Mod-e spawn pcmanfm
-hc keybind $Mod-Alt-g spawn google-chrome-stable
+hc keybind $Mod-Alt-g spawn qs/genymotion.sh
 hc keybind $Mod-Alt-c spawn codeblocks
 hc keybind $Mod-Alt-l spawn liteide
-hc keybind $Mod-Alt-v spawn VBoxManage startvm win10 --type gui
+#hc keybind $Mod-Alt-v spawn VBoxManage startvm win10 --type gui
 hc keybind $Mod-Alt-r spawn ~/qs/rdesktop.sh
 hc keybind $Mod-Alt-d spawn ~/qs/rdesktop.sh kill
 hc keybind $Mod-Alt-s spawn rapidsvn
@@ -181,10 +181,12 @@ hc rule class=Zathura tag=4
 hc rule class=Pcmanfm tag=4
 hc rule class=Vmware tag=5
 hc rule class=VirtualBox tag=5
+hc rule class=Genymotion tag=5
 hc rule instance=TM.exe tag=5
 hc rule class=Thunderbird tag=6
 hc rule class=rdesktop tag=7
 hc rule class=google-chrome tag=8
+hc rule class=com-xk72-charles-gui-MainWithClassLoader tag=8
 hc rule class=INodeClient tag=9
 hc rule class=WebTorrent tag=9
 
