@@ -1,7 +1,7 @@
 #!/bin/bash
 
-IN="LVDS1"
-EXT="VGA1"
+IN="LVDS-1"
+EXT="VGA-1"
 MODE=""
 
 if [ "$1" == "17" ]; then

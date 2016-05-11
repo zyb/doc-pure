@@ -11,6 +11,10 @@ own_window yes
 own_window_type panel
 own_window_hints undecorated,sticky,skip_taskbar,skip_pager
 
+own_window_argb_visual true
+own_window_argb_value 50
+own_window_transparent true
+
 border_inner_margin 0
 border_outer_margin 0
 draw_borders no
@@ -26,7 +30,7 @@ maximum_width 1366
 # Use KiB/MiB/... instead of just bytes
 format_human_readable yes
 # Print used memory with buffers
-no_buffers no
+no_buffers yes
 # Display k, G, ... instead of kiB, GiB, ...
 short_units yes
 
@@ -50,11 +54,11 @@ color1 green
 TEXT
 ${exec whoami} \
 | ${color1}cpu ${color0}${cpubar 8,50} \
-| ${color1}mem ${color0}${memperc}% \
+| ${color1}mem ${color0}${membar 8,50} \
 | ${color1}sda ${color0}${offset 18}${diskio sda}\
-${goto 270}| ${color1}proc ${color0}${running_processes}/${processes} \
+${goto 292}| ${color1}proc ${color0}${running_processes}/${processes} \
 | ${color1}load ${color0}${loadavg} \
-${goto 550}${if_up enp12s0}\
+${goto 570}${if_up enp12s0}\
 ${color1}net ${color0}${addrs enp12s0} \
 ${color0}${downspeedf enp12s0}(${totaldown enp12s0})${color1}↓ \
 ${color0}${upspeedf enp12s0}(${totalup enp12s0})${color1}↑ \
@@ -65,7 +69,6 @@ ${color0} ${downspeedf wlp3s0} (${totaldown wlp3s0})${color1}↓ \
 ${color0} ${upspeedf wlp3s0} (${totalup wlp3s0})${color1}↑ \
 ${endif}\
 ${endif}\
-${color0}| \
-${color1}temp ${color0}${acpitemp}° \
+${goto 1040}${color1}temp ${color0}${acpitemp}° \
 | ${color1}batt ${color0}${battery_short} \
-${goto 1210}${color0}${time %a %Y.%m.%d %H:%M:%S} \
+| ${color1}time ${color0}${time %a %Y.%m.%d %H:%M:%S} \
