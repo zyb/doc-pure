@@ -124,12 +124,17 @@ hc keybind $Mod-i jumpto urgent
 # theme
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
-hc set frame_border_active_color '#222222'
-hc set frame_border_normal_color '#101010'
-hc set frame_bg_normal_color '#565656'
+#hc set frame_border_active_color '#222222'
+hc set frame_border_active_color '#005577'
+#hc set frame_border_normal_color '#101010'
+hc set frame_border_normal_color '#333333'
+#hc set frame_bg_normal_color '#565656'
+hc set frame_bg_normal_color '#BD9768'
 #hc set frame_bg_active_color '#345F0C'
-hc set frame_bg_active_color '#565656'
-hc set frame_border_width 1
+#hc set frame_bg_active_color '#565656'
+hc set frame_bg_active_color '#BD8541'
+hc set frame_border_width 2
+hc set window_border_width 2
 hc set always_show_frame 1
 hc set frame_bg_transparent 1
 #hc set frame_transparent_width 5
@@ -158,6 +163,8 @@ hc set smart_window_surroundings 0
 hc set smart_frame_surroundings 1
 hc set mouse_recenter_gap 0
 
+feh --bg-fill ~/bg.jpg
+
 # rules
 hc unrule -F
 #hc rule class=XTerm tag=3 # move all xterms to tag 3
@@ -182,6 +189,7 @@ hc rule class=Pcmanfm tag=4
 hc rule class=Vmware tag=5
 hc rule class=VirtualBox tag=5
 hc rule class=Genymotion tag=5
+hc rule class="Genymotion Player" tag=5
 hc rule instance=TM.exe tag=5
 hc rule class=Thunderbird tag=6
 hc rule class=rdesktop tag=7
@@ -202,7 +210,8 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 
 # find the panel
 #if [ '1' == '0' ]; then
-panel=~/.config/herbstluftwm/panel.sh
+#panel=~/.config/herbstluftwm/panel.sh
+panel=~/.config/herbstluftwm/panel2.sh
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor

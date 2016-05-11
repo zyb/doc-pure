@@ -43,7 +43,9 @@ lnconf ~/.zybshellrc $confpath/.zybshellrc
 lnconf ~/.vimrc $confpath/.vimrc
 lnconf ~/.xinitrc $confpath/.xinitrc
 lnconf ~/.Xresources $confpath/.Xresources
-lnconf ~/.config/herbstluftwm/autostart $confpath/autostart-herbstluftwm
+lnconf ~/.config/herbstluftwm/autostart $confpath/hc/autostart
+lnconf ~/.config/herbstluftwm/panel2.sh $confpath/hc/panel2.sh
+lnconf ~/.config/herbstluftwm/conkyrc $confpath/hc/conkyrc
 lnconf ~/qs $docpurepath/qs
 
 if [ 0 -eq 1 ]; then
