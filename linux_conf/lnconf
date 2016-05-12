@@ -46,6 +46,7 @@ lnconf ~/.Xresources $confpath/.Xresources
 lnconf ~/.config/herbstluftwm/autostart $confpath/hc/autostart
 lnconf ~/.config/herbstluftwm/panel2.sh $confpath/hc/panel2.sh
 lnconf ~/.config/herbstluftwm/conkyrc $confpath/hc/conkyrc
+lnconf ~/bg.jpg $confpath/infan_ASTA-201310_01_10.jpg
 lnconf ~/qs $docpurepath/qs
 
 if [ 0 -eq 1 ]; then
