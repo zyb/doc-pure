@@ -1,7 +1,7 @@
 #! /bin/bash
 
 if [ "" = "$1" ]; then
-	default="/home/zyb/d/github/lantern/lantern_linux_amd64"
+	default="/home/zyb/d/github/lantern/lantern"
 	lpath="$default"
 else
 	lpath="$1"

@@ -1,7 +1,11 @@
 #
 # ~/.bash_profile
 #
+
+# close the terminal bells
 setterm -blength 0
+# Activating Numlock
+setleds -D +num
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 

@@ -1,0 +1,3 @@
+pacman -S dialog wpa_supplicant vim intel-ucode
+pacman -S archlinuxcn-keyring 
+pacman -S linux-headers dosfstools ntfs-3g xorg-server xorg-server-utils xorg-xinit xterm firefox herbstluftwm alsa-utils git ttf-inconsolata wqy-microhei thunderbird rdesktop fcitx-im fcitx-sunpinyin fcitx-configtool flashplugin wps-office unzip-iconv unrar zip p7zip subversion go mlocate yaourt zsh lxappearance lxde-common lxde-icon-theme gnome-themes-standard xarchiver gpicview liteide jdk7 maven git dos2unix gksu pcmanfm gedit eclipse codeblocks gdb zathura zathura-pdf-poppler calc httping wget pkgfile virtualbox glances firefox-i18n-zh-cn haveged thunderbird-i18n-zh-cn conky networkmanager networkmanager-openvpn networkmanager-pptp nm-connection-editor 

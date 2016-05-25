@@ -1,7 +1,10 @@
 #
 # ~/.zprofile
 
+# close the terminal bells
 setterm -blength 0
+# Activating Numlock
+setleds -D +num
 
 #export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
 export PATH=$GOROOT/bin:$PATH

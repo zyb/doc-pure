@@ -44,6 +44,7 @@ sleep 2
 
 #xterm &
 exec herbstluftwm
+#exec i3 -V >> ~/.i3/i3log 2>&1
 
 #twm &
 #xclock -geometry 50x50-1+1 &
