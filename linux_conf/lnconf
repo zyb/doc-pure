@@ -47,7 +47,6 @@ lnconf ~/.zprofile $confpath/.zprofile
 lnconf ~/.zybshellrc $confpath/.zybshellrc
 #lnconf ~/.bashrc $confpath/.bashrc
 #lnconf ~/.bash_profile $confpath/.bash_profile
-lnconf ~/.vimrc $confpath/.vimrc
 lnconf ~/.xinitrc $confpath/.xinitrc
 lnconf ~/.Xresources $confpath/.Xresources
 lnconf ~/.config/herbstluftwm/autostart $confpath/hc/autostart
@@ -55,6 +54,13 @@ lnconf ~/.config/herbstluftwm/panel2.sh $confpath/hc/panel2.sh
 lnconf ~/.config/herbstluftwm/conkyrc $confpath/hc/conkyrc
 lnconf ~/bg.jpg $confpath/infan_ASTA-201310_01_10.jpg
 lnconf ~/qs $docpurepath/qs
+
+lnconf ~/.vimrc $confpath/.vimrc
+mkdir -p ~/.vim/bundle 
+cd ~/.vim/bundle/ && git clone https://github.com/gmarik/Vundle.vim.git
+mkdir -p ~/.vim/colors
+cd ~/.vim/colors && wget https://github.com/tomasr/molokai/blob/master/colors/molokai.vim
+
 
 if [ 0 -eq 1 ]; then
 	ln -s /home/zyb/d/git-warehouse/gows/ ~/gows
@@ -68,9 +74,8 @@ echo "---------------------------------"
 echo "mkdir zdata, mount data, mount c, mount d, mount u, mount u0"
 echo "gopath: /home/zyb/$$data/gopath:/home/zyb/$$data/gows"
 echo "git clone oh-my-zsh"
-#echo "git vim gmarkik/Vlundle.vim"
 echo "mkdir -p .vim/bundle; git clone https://github.com/gmarik/Vundle.vim.git"
-echo "mkdir .vim; git clone https://github.com/tomasr/molokai.git"
+echo "mkdir .vim/colors; wget https://github.com/tomasr/molokai/blob/master/colors/molokai.vim"
 echo "config fcitx"
 echo "install genymotion"
 echo "install shutter"
