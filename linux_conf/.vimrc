@@ -76,17 +76,53 @@ map <A-h> :NERDTreeToggle<CR>
 let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end	" close vim if the only window left open is a NERDTree
 
-" Plugin 'majutsushi/tagbar'
-" map <A-l> :TagbarToggle<CR>
-" let g:tagbar_autofocus = 1
+" TagBar
+Plugin 'majutsushi/tagbar'
+map <A-l> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',             
+        \ 'i:imports:1',           
+        \ 'c:constants',           
+        \ 'v:variables',           
+        \ 't:types',               
+        \ 'n:interfaces',         
+        \ 'w:fields',             
+        \ 'e:embedded',           
+        \ 'm:methods',             
+        \ 'r:constructor',         
+        \ 'f:functions'           
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',           
+        \ 'n' : 'ntype'           
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',           
+        \ 'ntype' : 'n'           
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
 
+" Golang Plugin
+Plugin 'dgryski/vim-godef'
+Plugin 'cespare/vim-golang'
+Plugin 'Blackrush/vim-gocode'
 Plugin 'fatih/vim-go'
+
+" Autocompletion
+Plugin 'Valloric/YouCompleteMe'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
+filetype plugin on
 " "}}}
 
 " Bundle example&help "{{{ 

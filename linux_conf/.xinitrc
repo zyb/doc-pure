@@ -41,6 +41,7 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
 fcitx
 sleep 2
+synclient TapButton1=1 TapButton2=3 TapButton3=0 VertTwoFingerScroll=1 HorizTwoFingerScroll=1
 
 #xterm &
 exec herbstluftwm

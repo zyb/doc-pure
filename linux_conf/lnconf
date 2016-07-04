@@ -23,12 +23,19 @@ function lnconf()
 	local dst="$2"
 
 	if [[ -f $dst && ! -h $src ]]; then
-		if [ -f $src ]; then
+		if [[ -f $src || -d $src ]]; then
 			echo "[INFO] bak '$src'"
 			mv $src ${src}-bak
 		fi
 		echo "[INFO] $src -> $dst"
 		ln -s $dst $src
+	elif [[ -d $dst && ! -h $src ]]; then
+		if [[ -f $src || -d $src ]]; then
+			echo "[INFO] bak '$src'"       
+      mv $src ${src}-bak
+		fi
+		echo "[INFO] $src -> $dst"       
+    ln -s $dst $src
 	else
 		echo "[WARN] '$dst' not found  or '$src' is a link file! '$src' not change."
 	fi
@@ -56,3 +63,14 @@ if [ 0 -eq 1 ]; then
 	ln -s /home/zyb/d/git-warehouse/vimplugin/Vundle.vim ~/.vim/bundle/Vundle.vim
 	ln -s /home/zyb/d/git-warehouse/vimplugin/colors/molokai/colors/molokai.vim ~/.vim/colors/molokai.vim
 fi
+
+echo "---------------------------------"
+echo "mkdir zdata, mount data, mount c, mount d, mount u, mount u0"
+echo "gopath: /home/zyb/$$data/gopath:/home/zyb/$$data/gows"
+echo "git clone oh-my-zsh"
+echo "git vim gmarkik/Vlundle.vim"
+echo "config fcitx"
+echo "install genymotion"
+echo "install shutter"
+echo "use zsh"
+echo "software data rsync"

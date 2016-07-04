@@ -3,13 +3,17 @@
 export JAVA_HOME=/usr/lib/jvm/java-7-jdk
 export JRE_HOME=$JAVA_HOME/jre
 export GOROOT=/usr/lib/go
-export GOPATH=/home/zyb/zdata/gopath:/home/zyb/zdata/gows
+export GOPATH=/home/zyb/zdata/gopath:/home/zyb/zdata/gows:/home/zyb/zdata/goys
 export LITEIDE_HOME=/usr/local/liteide
+
+alias protoc-gen-go='/home/zyb/zdata/gopath/bin/protoc-gen-go'
 
 alias ls='ls --color=auto'
 alias ll='ls -lahF --color=auto'
 alias l='ls -lhF --color=auto'
 alias grep='grep --color=auto'
+
+# alias zybpi='function __zybpi() { if [[ "$1" == "" ]]; then echo "need ip"; return 1; fi; ssh zyb@192.168.0.$1; }; __zybpi'
 
 tsship="172.16.59.13"
 #tsshuser=binzhang3

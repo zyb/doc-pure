@@ -1,8 +1,8 @@
 XTerm*locale:true
 xTerm*termName: xterm-256color
 
-XTerm*faceName: Inconsolata:pixelsize=15
-XTerm*faceNameDoublesize: WenQuanYi Micro Hei Mono:pixelsize=15
+XTerm*faceName: Inconsolata:pixelsize=21
+XTerm*faceNameDoublesize: WenQuanYi Micro Hei Mono:pixelsize=21
 
 XTerm*background: #202020
 XTerm*foreground: #FFFFFF
@@ -17,3 +17,5 @@ XTerm*thickness: 3
 Shift <KeyPress> Insert:insert-selection(CLIPBOARD, CUT_BUFFER1) \n\
 ~Shift~Ctrl<Btn2Up>: insert-selection(CLIPBOARD, CUT_BUFFER1) \n\
 ~Shift<BtnUp>: select-end(CLIPBOARD, CUT_BUFFER1)
+
+Xft.dpi: 120

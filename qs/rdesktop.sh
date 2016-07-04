@@ -7,7 +7,9 @@ fi
 
 # tcZAflwsyhy2yh!Q#E%T&U(O
 
-rd="rdesktop -a 16 -P -g 98% -t -z -r sound:off"
+resolution=$(xrandr -q | awk '/Screen 0/ {print int($8) $9 int($10-10)}' | sed 's/,//g')
+# resolution="99%"
+rd="rdesktop -a 16 -P -f -g $resolution -t -z -r sound:off -r disk:MyHome=/home/zyb"
 
 if [ "" == "$1" ]; then
   addr=172.16.59.13:52138
@@ -15,6 +17,9 @@ if [ "" == "$1" ]; then
 elif [ "jkwu" == "$1" ]; then
   addr=116.213.140.67:18181
   user=jkwu
+elif [ "zhangbin" == "$1" ]; then
+	addr=117.121.45.227:18180
+	user=zhangbin
 else
   addr=$1
   user=$2

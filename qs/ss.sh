@@ -10,7 +10,7 @@ if [[ "" = "$exec_pid" && "" = "$exec_qt5" ]]; then
 		mkdir /tmp/sstmp
 	fi
 	tmpfile=$(mktemp /tmp/sstmp/sslog.XXXXXXXXXXXXX)
-	setsid sslocal -c $curr/ss/pytrade.xyz > $tmpfile 2>&1 &
+	setsid sslocal -c $curr/ss/ss.conf > $tmpfile 2>&1 &
 	sleep 0.5
 	exec_pid=$(ps aux | grep sslocal | grep -v grep | awk '{print $2}')
 	echo "sslocal start: $exec_pid, log: $tmpfile"

@@ -27,25 +27,30 @@ hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn xterm
 
 # custom
-hc keybind $Mod-Alt-Up spawn amixer -c 0 -- sset Master playback 2dB+
-hc keybind $Mod-Alt-Down spawn amixer -c 0 -- sset Master playback 2dB-
-hc keybind $Mod-Alt-Left spawn amixer set Master mute
-hc keybind $Mod-Alt-Right spawn amixer set Master unmute
+hc keybind $Mod-e spawn pcmanfm
+hc keybind $Mod-Alt-Up spawn amixer set Master 2%+
+hc keybind $Mod-Alt-Down spawn amixer set Master 2%-
+hc keybind $Mod-Alt-Left spawn amixer set Speaker mute
+hc keybind $Mod-Alt-Right spawn amixer set Speaker unmute
 hc keybind $Mod-Alt-f spawn ~/qs/firefox-cn.sh
+hc keybind $Mod-Alt-g spawn ~/qs/chrome-cn.sh
 hc keybind $Mod-Alt-m spawn thunderbird
 hc keybind $Mod-Alt-e spawn eclipse
-hc keybind $Mod-e spawn pcmanfm
-hc keybind $Mod-Alt-g spawn qs/genymotion.sh
+hc keybind $Mod-Alt-a spawn qs/genymotion.sh
 hc keybind $Mod-Alt-c spawn codeblocks
 hc keybind $Mod-Alt-l spawn liteide
-#hc keybind $Mod-Alt-v spawn VBoxManage startvm win10 --type gui
 hc keybind $Mod-Alt-r spawn ~/qs/rdesktop.sh
 hc keybind $Mod-Alt-d spawn ~/qs/rdesktop.sh kill
-hc keybind $Mod-Alt-s spawn rapidsvn
-hc keybind $Mod-Alt-a spawn ~/qs/screenshot.sh
+hc keybind $Mod-Alt-v spawn virtualbox
+hc keybind $Mod-Alt-s spawn ~/qs/screenshot.sh
+#hc keybind $Mod-Alt-v spawn VBoxManage startvm win10 --type gui
+#hc keybind $Mod-Alt-s spawn rapidsvn
 #hc keybind $Mod-Alt-t spawn ~/qs/tm.sh
 #hc keybind $Mod-Alt-k spawn ~/qs/killtm.sh
-hc keybind $Mod-Alt-b spawn ~/zdata/software/WebTorrent-linux-x64/WebTorrent
+#hc keybind $Mod-Alt-b spawn ~/zdata/software/WebTorrent-linux-x64/WebTorrent
+hc keybind $Mod-Alt-Shift-w spawn wps
+hc keybind $Mod-Alt-Shift-e spawn et
+hc keybind $Mod-Alt-Shift-p spawn wpp
 
 # basic movement
 # focusing clients
@@ -170,24 +175,24 @@ hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
 hc rule class=Firefox tag=1
+hc rule class=Wps tag=2
+hc rule class=Et tag=2
+hc rule class=Wpp tag=2
+hc rule class=Zathura tag=2
+hc rule class=Pcmanfm tag=2
 hc rule class=Eclipse tag=3
 hc rule title=Eclipse tag=3
 hc rule class=liteide tag=3
 hc rule class=Codeblocks tag=3
-hc rule class=Wps tag=4
-hc rule class=Et tag=4
-hc rule class=Wpp tag=4
-hc rule class=Zathura tag=4
-#hc rule class=Pcmanfm tag=4
-hc rule class=Vmware tag=5
-hc rule class=VirtualBox tag=5
-hc rule class=Genymotion tag=5
-hc rule class="Genymotion Player" tag=5
-hc rule instance=TM.exe tag=5
-hc rule class=chromium tag=5
-hc rule class=Thunderbird tag=6
-hc rule class=rdesktop tag=7
-hc rule class=google-chrome tag=8
+hc rule class=Vmware tag=4
+hc rule class=VirtualBox tag=4
+hc rule class=Genymotion tag=4
+hc rule class="Genymotion Player" tag=4
+hc rule class=google-chrome tag=4
+hc rule class=chromium tag=4
+hc rule instance=TM.exe tag=4
+hc rule class=Thunderbird tag=5
+hc rule class=rdesktop tag=6
 hc rule class=com-xk72-charles-gui-MainWithClassLoader tag=8
 hc rule class=INodeClient tag=9
 hc rule class=WebTorrent tag=9
