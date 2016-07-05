@@ -59,7 +59,7 @@ lnconf ~/.vimrc $confpath/.vimrc
 mkdir -p ~/.vim/bundle 
 cd ~/.vim/bundle/ && git clone https://github.com/gmarik/Vundle.vim.git
 mkdir -p ~/.vim/colors
-cd ~/.vim/colors && wget https://github.com/tomasr/molokai/blob/master/colors/molokai.vim
+cd ~/.vim/colors && wget https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
 
 
 if [ 0 -eq 1 ]; then
