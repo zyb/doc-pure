@@ -9,10 +9,12 @@ fi
 
 exec_pid=$(pidof $lpath)
 if [ "" = "$exec_pid" ]; then
-	setsid $lpath --addr 0.0.0.0:12258 > /dev/null 2>&1 &
+	mkdir -p /tmp/lantern
+	tmpfile=$(mktemp /tmp/lantern/lantern.log.XXXXXXXXXXXXX)
+	setsid $lpath --addr 127.0.0.1:12258 > $tmpfile 2>&1 &
 	sleep 0.5
 	exec_pid=$(pidof $lpath)
-	echo "start : $exec_pid [$lpath]"
+	echo "start : $exec_pid [$lpath], log file: $tmpfile"
 else
 	echo "'$lpath' already run: $exec_pid"
 fi

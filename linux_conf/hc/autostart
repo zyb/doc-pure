@@ -28,22 +28,33 @@ hc keybind $Mod-Return spawn xterm
 
 # custom
 hc keybind $Mod-e spawn pcmanfm
-hc keybind $Mod-Alt-Up spawn amixer set Master 2%+
-hc keybind $Mod-Alt-Down spawn amixer set Master 2%-
+hc keybind $Mod-Alt-Up spawn amixer set Master 5+
+hc keybind $Mod-Alt-Down spawn amixer set Master 5-
+hc keybind $Mod-Alt-Shift-Up spawn amixer set Master 2+
+hc keybind $Mod-Alt-Shift-Down spawn amixer set Master 2-
 hc keybind $Mod-Alt-Left spawn amixer set Speaker mute
 hc keybind $Mod-Alt-Right spawn amixer set Speaker unmute
+hc keybind $Mod-Alt-Shift-Left spawn amixer set Master mute
+hc keybind $Mod-Alt-Shift-Right spawn amixer set Master unmute
 hc keybind $Mod-Alt-f spawn ~/qs/firefox-cn.sh
-hc keybind $Mod-Alt-g spawn ~/qs/chrome-cn.sh
+#hc keybind $Mod-Alt-g spawn ~/qs/chrome-cn.sh
+hc keybind $Mod-Alt-g spawn google-chrome-stable
 hc keybind $Mod-Alt-m spawn thunderbird
-hc keybind $Mod-Alt-e spawn eclipse
-hc keybind $Mod-Alt-a spawn qs/genymotion.sh
+hc keybind $Mod-Alt-e spawn ~/qs/eclipse.sh
+hc keybind $Mod-Alt-i spawn ~/qs/idea.sh
 hc keybind $Mod-Alt-c spawn codeblocks
 hc keybind $Mod-Alt-l spawn liteide
+hc keybind $Mod-Alt-x spawn XMind
+hc keybind $Mod-Alt-a spawn ~/qs/genymotion.sh
 hc keybind $Mod-Alt-r spawn ~/qs/rdesktop.sh
 hc keybind $Mod-Alt-d spawn ~/qs/rdesktop.sh kill
-hc keybind $Mod-Alt-v spawn virtualbox
 hc keybind $Mod-Alt-s spawn ~/qs/screenshot.sh
-#hc keybind $Mod-Alt-v spawn VBoxManage startvm win10 --type gui
+hc keybind $Mod-Alt-v spawn VBoxManage startvm win10
+#hc keybind $Mod-Alt-n spawn nixnote2
+hc keybind $Mod-Alt-n spawn navicat
+hc keybind $Mod-Alt-p spawn ss-qt5
+#hc keybind $Mod-Alt-u spawn uget-gtk
+#hc keybind $Mod-Alt-v spawn virtualbox
 #hc keybind $Mod-Alt-s spawn rapidsvn
 #hc keybind $Mod-Alt-t spawn ~/qs/tm.sh
 #hc keybind $Mod-Alt-k spawn ~/qs/killtm.sh
@@ -51,6 +62,9 @@ hc keybind $Mod-Alt-s spawn ~/qs/screenshot.sh
 hc keybind $Mod-Alt-Shift-w spawn wps
 hc keybind $Mod-Alt-Shift-e spawn et
 hc keybind $Mod-Alt-Shift-p spawn wpp
+hc keybind $Mod-Alt-Shift-a spawn ~/qs/aside.sh
+hc keybind $Mod-Alt-Shift-k spawn kdenlive
+hc keybind $Mod-Alt-Shift-g spawn gimp
 
 # basic movement
 # focusing clients
@@ -90,6 +104,12 @@ hc keybind $Mod-Control-Left    resize left +$resizestep
 hc keybind $Mod-Control-Down    resize down +$resizestep
 hc keybind $Mod-Control-Up      resize up +$resizestep
 hc keybind $Mod-Control-Right   resize right +$resizestep
+
+ministep=0.002
+hc keybind $Mod-Control-Shift-Left    resize left +$ministep
+hc keybind $Mod-Control-Shift-Down    resize down +$ministep
+hc keybind $Mod-Control-Shift-Up      resize up +$ministep
+hc keybind $Mod-Control-Shift-Right   resize right +$ministep
 
 # tags
 tag_names=( {1..9} )
@@ -175,27 +195,32 @@ hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
 hc rule class=Firefox tag=1
-hc rule class=Wps tag=2
-hc rule class=Et tag=2
-hc rule class=Wpp tag=2
-hc rule class=Zathura tag=2
-hc rule class=Pcmanfm tag=2
-hc rule class=Eclipse tag=3
-hc rule title=Eclipse tag=3
-hc rule class=liteide tag=3
-hc rule class=Codeblocks tag=3
+hc rule class=Google-chrome tag=3
+hc rule class=chromium tag=1
+#hc rule class=Wps tag=2
+#hc rule class=Et tag=2
+#hc rule class=Wpp tag=2
+#hc rule class=Zathura tag=2
+#hc rule class=Pcmanfm tag=2
+hc rule class=Eclipse tag=2
+hc rule class=liteide tag=2
+hc rule class=jetbrains-studio tag=2
+hc rule class=jetbrains-idea-ce tag=2
+hc rule class=Codeblocks tag=2
 hc rule class=Vmware tag=4
 hc rule class=VirtualBox tag=4
-hc rule class=Genymotion tag=4
 hc rule class="Genymotion Player" tag=4
-hc rule class=google-chrome tag=4
-hc rule class=chromium tag=4
+hc rule class=Genymotion tag=4
 hc rule instance=TM.exe tag=4
+hc rule instance=Navicat.exe tag=5
 hc rule class=Thunderbird tag=5
-hc rule class=rdesktop tag=6
+hc rule class=rdesktop tag=7
+hc rule class=Nixnote2 tag=8
 hc rule class=com-xk72-charles-gui-MainWithClassLoader tag=8
 hc rule class=INodeClient tag=9
+hc rule class=Uget-gtk tag=9
 hc rule class=WebTorrent tag=9
+hc rule class=shadowsocks-qt5 tag=9
 
 # unlock, just to be sure
 hc unlock

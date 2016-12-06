@@ -8,8 +8,11 @@ fi
 # tcZAflwsyhy2yh!Q#E%T&U(O
 
 resolution=$(xrandr -q | awk '/Screen 0/ {print int($8) $9 int($10-10)}' | sed 's/,//g')
-# resolution="99%"
+#resolution="99%"
 rd="rdesktop -a 16 -P -f -g $resolution -t -z -r sound:off -r disk:MyHome=/home/zyb"
+if [ "$2" == "11" ]; then
+	rd="rdesktop -a 16 -P -f -g 1920x1080 -t -z -r sound:off -r disk:MyHome=/home/zyb"
+fi
 
 if [ "" == "$1" ]; then
   addr=172.16.59.13:52138

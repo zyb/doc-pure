@@ -1,0 +1,9 @@
+{
+	"server":"us01.goagent.wang",
+	"server_port":10342,
+	"password":"jgw0934",
+	"method":"rc4-md5",
+	"local_address":"127.0.0.1",
+	"local_port":"12250",
+	"timeout":1000
+}

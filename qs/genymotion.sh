@@ -1,8 +1,8 @@
 #! /bin/bash
 
 if [ "$1" == "list" ]; then
-	~/zdata/software/genymotion/genyshell -c "devices list"
+	~/data/software/genymotion/genymotion/genyshell -c "devices list"
 	exit 0
 fi
 
-setsid ~/zdata/software/genymotion/player --vm-name "android4.3tp" > /dev/null 2>&1 &
+setsid ~/data/software/genymotion/genymotion/player --vm-name "6.0" > /dev/null 2>&1 &

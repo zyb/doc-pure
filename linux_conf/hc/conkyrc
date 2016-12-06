@@ -52,15 +52,21 @@ default_graph_size 8 30
 color0 d0d0d0
 #color1 afdf87
 color1 green
+color2 red
+color3 FF7744
+color4 yellow
 
 TEXT
 ${exec herbstclient attr clients.focus.class} \
 | ${top name 1} \
-${goto 220}${color1}cpu ${color0}${cpubar 8,35} \
-| ${color1}mem ${color0}${membar 8,35} \
-| ${color1}io ${color0}${offset 18}${diskio sda}\
+\
+\
+${goto 250}${color1}cpu ${color0}${cpubar 8,35} \
+| ${color1}mem ${color0}${membar 8,75} $memperc%\
+| ${color1}io ${color0}${offset 18}${diskio nvme0n1}/${diskio sda}\
 | ${color1}proc ${color0}${running_processes}/${processes} \
-${goto 850}${if_up enp12s0}\
+| \
+${if_up enp12s0}\
 ${color1}net ${color0}${addrs enp12s0} \
 ${color0}${downspeedf enp12s0}${color1}↓ \
 ${color0}${upspeedf enp12s0}${color1}↑ \
@@ -71,7 +77,23 @@ ${color0}${downspeedf wlp58s0}${color1}↓ \
 ${color0}${upspeedf wlp58s0}${color1}↑ \
 ${endif}\
 ${endif}\
-${goto 1470}${color1}temp ${color0}${exec sensors | grep 'Physical id 0' | awk -F'\\+|\\.' '{print $2}'}° \
-| ${color1}batt ${color0}${battery_short} \
+\
+\
+${goto 1480}${color1}temp ${color0}${exec sensors | grep 'Physical id 0' | awk -F'\\+|\\.' '{print $2}'}° \
+| \
+${color1}batt \
+${if_match ${battery_percent} <= 20}\
+${color2}${battery_percent}%${color0}\
+${else}\
+${if_match ${battery_percent} <= 50}\
+${color3}${battery_percent}%${color0}\
+${else}\
+${if_match ${battery_percent} <= 80}\
+${color4}${battery_percent}%${color0}\
+${else}\
+${color0}${battery_percent}%\
+${endif}\
+${endif}\
+${endif} \
 | ${color1}vol ${color0}${exec amixer get Speaker | tail -n 1 | awk -F'\\[|\\]' '{print $6}'} ${exec amixer -c 0 -- get Master | tail -1 | awk -F'\\[|\\]' '{print $2}'} \
-| ${color1}time ${color0}${time %Y.%m.%d %a %H:%M:%S} \
+| ${color1}time ${color0}${time %Y.%m.%d %a} ${color1}${time %H:%M:%S}\

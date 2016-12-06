@@ -4,7 +4,7 @@ filetype off	" bundle need, required
 
 syntax on	" Enable syntax highlighting
 " set term=color_xterm
-set ffs=unix	" Default to Unix LF line endings
+set ffs=unix,dos,mac	" Default to Unix LF line endings
 set history=4096	" Number of things to remember in history.
 set cursorline	" 光标高亮显示
 set cursorcolumn	" 光标垂直高亮
@@ -35,6 +35,8 @@ set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 
 " colors "{{{
 colorscheme molokai
+" set background=dark
+" colorscheme solarized
 let g:molokai_original = 1
 let g:rehash256 = 1
 "}}}

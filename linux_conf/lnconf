@@ -57,11 +57,14 @@ lnconf ~/qs $docpurepath/qs
 
 lnconf ~/.vimrc $confpath/.vimrc
 mkdir -p ~/.vim/bundle 
-cd ~/.vim/bundle/ && git clone https://github.com/gmarik/Vundle.vim.git
+cd ~/.vim/bundle && git clone https://github.com/gmarik/Vundle.vim.git
 mkdir -p ~/.vim/colors
 cd ~/.vim/colors && wget https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
 
+echo "lucene code style: https://raw.githubusercontent.com/twitter/mahout/master/buildtools/Eclipse-Lucene-Codestyle.xml"
 
+
+echo "solarized colors: cd ~/.vim/colors && wget https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim"
 if [ 0 -eq 1 ]; then
 	ln -s /home/zyb/d/git-warehouse/gows/ ~/gows
 	ln -s /home/zyb/d/git-warehouse/gopath/ ~/gopath

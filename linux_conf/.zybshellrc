@@ -1,17 +1,60 @@
 #! /bin/bash
 
-export JAVA_HOME=/usr/lib/jvm/java-7-jdk
+# cmd
+# ps -Tfp PID
+
+export JAVA_HOME=/usr/lib/jvm/default
 export JRE_HOME=$JAVA_HOME/jre
 export GOROOT=/usr/lib/go
-export GOPATH=/home/zyb/zdata/gopath:/home/zyb/zdata/gows:/home/zyb/zdata/goys
+export GOPATH=/home/zyb/zdata/gopath:/home/zyb/zdata/gows:/home/zyb/zdata/goys:/mnt/c/Users/zyb/data/project/gows
 export LITEIDE_HOME=/usr/local/liteide
-
-alias protoc-gen-go='/home/zyb/zdata/gopath/bin/protoc-gen-go'
 
 alias ls='ls --color=auto'
 alias ll='ls -lahF --color=auto'
 alias l='ls -lhF --color=auto'
 alias grep='grep --color=auto'
+
+alias protoc-go='PATH=$PATH:~/zdata/gopath/bin protoc'
+alias ffjson='/home/zyb/zdata/gopath/bin/ffjson'
+alias pig='/home/zyb/data/develop/pig-0.16.0/bin/pig'
+
+alias jch7='sudo archlinux-java set java-7-jdk'
+alias jch8='sudo archlinux-java set java-8-jdk'
+
+#### self define
+
+alias mvnsrc='mvn dependency:sources -DdownloadSources=true -DdownloadJavadocs=true'
+alias mvnflume='mvn clean install -DskipTests -DdownloadSources=true -Drat.numUnapprovedLicenses=1000'
+
+alias cdhmgr='docker run --hostname=quickstart.cloudera --privileged=true -t -i --rm cloudera/quickstart /home/cloudera/cloudera-manager --express --force'
+alias cdh='docker run --hostname=quickstart.cloudera --privileged=true -t -i --rm cloudera/quickstart /usr/bin/docker-quickstart'
+alias easyjson='/home/zyb/zdata/gopath/bin/easyjson'
+
+# PATH=$PATH:/usr/lib/go/bin:/home/zyb/zdata/gopath/bin go-torch --time=15 --file "torch.svg" --url http://127.0.0.1:25250
+alias flameg='function __myflameg() {if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; go-torch --time=$2 --file "torch.svg" --url http://$1}; PATH=$PATH:/usr/lib/go/bin:/home/zyb/zdata/gopath/bin:/home/zyb/data/github/FlameGraph __myflameg'
+alias gosvg='function __mygotoolsvg() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; go tool pprof -svg -seconds $2 http://$1/debug/pprof/profile > src.svg}; __mygotoolsvg'
+
+alias myps='function __mypsprint(){if [[ "$1" == "" ]]; then echo "need 1 param"; return 1; fi; ps -e -o "pid,comm,args,pcpu,rsz,vsz,stime,user" | grep $1 | sort -nrk5}; __mypsprint'
+alias snet='sudo systemctl restart NetworkManager'
+
+alias xhdb='echo "#-mdxGGctyk7!@#-" && docker run -d -p 6625:80 clue/adminer && sleep 1 && docker ps -a'
+alias xhdbch='echo "#-rjzdsCS10000toolong!@#-"; ssh -fCPN -L 0.0.0.0:2566:10.100.1.1:7066 -p18733 root@101.201.67.11; ps aux | grep "ssh"'
+
+alias xhrmq='echo "#-rjzdsCS10000toolong!@#-"; ssh -fCPN -L 127.0.0.1:9876:10.100.1.2:9876 -p18733 root@101.201.67.11; ps aux | grep "ssh"'
+
+alias xhr02='echo "#-rjzdsCS10000toolong!@#-"; ssh -fCPN -L 127.0.0.1:22002:10.100.1.2:22 -p18733 root@101.201.67.11; ps aux | grep "ssh"'
+alias xhr3='echo "#-rjzdsCS10000toolong!@#-"; ssh -fCPN -L 127.0.0.1:2203:10.1.1.3:22 -p18733 root@101.201.67.11; ps aux | grep "ssh"'
+
+alias cssh='ssh root@iamhansons.oicp.net -p 10022'
+
+alias xhssh='echo "#-rjzdsCS10000toolong!@#-"; ssh root@101.201.67.11 -p 18733'
+alias xhscp='echo "#-rjzdsCS10000toolong!@#-"; function __mytscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P 18733 $1 root@101.201.67.11:~/zybtrans/$2; }; __mytscp'
+
+mgip="117.185.122.130"
+mgport="10022"
+mguser="tempuser"
+alias mgssh='echo "8ik,#EDCyfb"; ssh $mguser@$mgip -p $mgport'
+alias mgscp='echo "8ik,#EDCyfb"; function __mytscp() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; scp -r -P $mgport $1 $mguser@$mgip:~/zybtrans/$2; }; __mytscp'
 
 # alias zybpi='function __zybpi() { if [[ "$1" == "" ]]; then echo "need ip"; return 1; fi; ssh zyb@192.168.0.$1; }; __zybpi'
 
