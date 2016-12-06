@@ -12,13 +12,12 @@ import io.github.zyb.network
 
 import org.apache.hadoop.*
 import org.apache.flume.*
-import org.apache.mesos.*
 
 import com.docker.*
 
 public class About {
-	public About(){
-		System.out.println("这个人很懒什么都没留下...");
+	public String toString(){
+		return "这个人很懒什么都没留下...";
 	}
 }
 ```

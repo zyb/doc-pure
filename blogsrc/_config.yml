@@ -4,17 +4,17 @@
 
 # Site
 title: zyb
-subtitle: 
-description: Nothing
+subtitle: zybrc
+description: begin...
 author: zyb
 language: zh-Hans
-timezone:
+timezone: Asia/Shanghai
 
 avatar: /uploads/icon.png
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://zyb.github.io
+url: https://zyb.github.io
 root: /
 permalink: :year/:month/:day-:title.html
 permalink_defaults:
@@ -104,8 +104,8 @@ feed:
 # sitemap
 sitemap:
 path: sitemap.xml
-baidusitemap:
-path: baidusitemap.xml
+#baidusitemap:
+#path: baidusitemap.xml
 
 # since
-since: 2015
+since: 2016
