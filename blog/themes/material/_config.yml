@@ -13,7 +13,7 @@ head:
 url:
     rss: 
     daily_pic: "/"
-    logo: "/"
+    logo: "/about"
 
 
 # ---------------------------------------------------------------
@@ -46,9 +46,9 @@ js_effect:
 #     Material | Github | Plain
 reading:
     markdown: Github
-    entry_excerpt: 140
-    #code_highlight: solarized-white
-    code_highlight: solarized-dark
+    entry_excerpt: 500
+    code_highlight: solarized-white
+    #code_highlight: solarized-dark
 
 # Thumbnail Settings
 thumbnail:
@@ -105,7 +105,7 @@ sns:
 # Pages Menu
 pages:
     mdedit: "/md.html"
-    about: "/about"
+    关于我: "/about"
     
 
 
@@ -139,6 +139,6 @@ leancloud:
 # Busuanzi 不蒜子 Views
 busuanzi:
     enable: false
-    all_site_uv: true
-    post_pv: true
+    all_site_uv: false
+    post_pv: false
     busuanzi_pure_mini_js: "busuanzi/busuanzi.pure.mini.js"

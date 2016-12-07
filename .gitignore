@@ -12,12 +12,14 @@ blog/themes/next/.DS_Store
 blog/themes/next/.idea/
 blog/themes/next/*.log
 blog/themes/next/node_modules/
-!blog/themes/material/languages
-!blog/themes/material/layout
-!blog/themes/material/source
-!blog/themes/material/.travis.yml
-!blog/themes/material/_config.yml
-!blog/themes/material/package.json
+!blog/themes/material/
+
+#!blog/themes/material/languages
+#!blog/themes/material/layout
+#!blog/themes/material/source
+#!blog/themes/material/.travis.yml
+#!blog/themes/material/_config.yml
+#!blog/themes/material/package.json
 
 
 # Ignore unused verdors' files
