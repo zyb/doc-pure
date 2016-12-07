@@ -7,7 +7,8 @@ title: zyb
 subtitle: zybrc
 description: begin...
 author: zyb
-language: zh-Hans
+#language: zh-Hans
+language: zh-CN
 timezone: Asia/Shanghai
 
 avatar: /uploads/icon.png
@@ -65,7 +66,9 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: next
+#theme: next
+#theme: yelee
+theme: material
 
 # Social links
 social:

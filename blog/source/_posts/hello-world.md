@@ -1,7 +1,9 @@
+---
 title: Hello World
-date: 2015-09-19 18:01:12
+date: 2015-09-06 18:00:28
+updated: 
 categories: 
-	- blog
+	- hello
 tags: 
 	- hexo
 

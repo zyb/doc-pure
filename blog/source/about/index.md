@@ -1,5 +1,6 @@
 title: about
-date: 2015-09-18 14:03:00
+date: 
+updated:
 type: "about"
 comments: false
 ---

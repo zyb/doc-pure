@@ -1,20 +1,25 @@
-blogsrc/.DS_Store
-blogsrc/Thumbs.db
-blogsrc/db.json
-blogsrc/*.log
-blogsrc/node_modules/
-blogsrc/public/
-blogsrc/.deploy*/
-blogsrc/scaffolds
-blogsrc/.gitignore
+blog/.DS_Store
+blog/Thumbs.db
+blog/db.json
+blog/*.log
+blog/node_modules/
+blog/public/
+blog/.deploy*/
 
-blogsrc/themes/*
-!blogsrc/themes/next/
-blogsrc/themes/next/.DS_Store
-blogsrc/themes/next/.idea/
-blogsrc/themes/next/*.log
-blogsrc/themes/next/node_modules/
+blog/themes/*
+!blog/themes/next/
+blog/themes/next/.DS_Store
+blog/themes/next/.idea/
+blog/themes/next/*.log
+blog/themes/next/node_modules/
+!blog/themes/material/languages
+!blog/themes/material/layout
+!blog/themes/material/source
+!blog/themes/material/.travis.yml
+!blog/themes/material/_config.yml
+!blog/themes/material/package.json
+
 
 # Ignore unused verdors' files
-blogsrc/themes/next/source/vendors/fancybox/*
-!blogsrc/themes/next/source/vendors/fancybox/source/
+blog/themes/next/source/vendors/fancybox/*
+!blog/themes/next/source/vendors/fancybox/source/
