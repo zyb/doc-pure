@@ -97,14 +97,16 @@ sns:
     github: ://github.com/zyb 
 
 # Sidebar User Dropdown
-#dropdown: 
-#    Weibo: 
-#        link: "http://weibo.com/zybs"
-#        icon: weibo
+dropdown: 
+    Weibo: 
+        link: "http://weibo.com/zybs"
+        icon: weibo
 
 # Pages Menu
 pages:
-    mdedit: "/md.html"
+    medit: "/md.html"
+    分类: "/categories"
+    标签: "/tags"
     关于我: "/about"
     
 

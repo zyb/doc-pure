@@ -68,7 +68,8 @@ pagination_dir: page
 ## Themes: http://hexo.io/themes/
 #theme: next
 #theme: yelee
-theme: material
+#theme: material
+theme: maupassant
 
 # Social links
 social:
