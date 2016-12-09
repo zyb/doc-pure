@@ -1,5 +1,5 @@
 ---
-title: Zookeeper编译、部署、配置
+title: Zookeeper从源码编译及配置部署
 date: 2016-12-06 20:26:13
 updated: 
 categories: 
@@ -8,7 +8,10 @@ tags:
 	- zookeeper 
 
 ---
-## 一、背景
+
+虽然本文只是Zookeeper的编译、配置、部署，但是仍需要对Zookeeper的有基本的了解。
+
+## 一、环境
 
 * 当前zookeeper使用的是git上3.4.9这个tag，是当前稳定版本
 * jdk为1.7版本
@@ -47,7 +50,7 @@ $ ant eclipse
 
 将编译后的zookeeper目录或者.tar.gz包拷贝到将要部署的目录，即完成部署。多机（多进程）部署，就分别拷贝将要部署的目录即可。（上一步编译的.tar.gz包，如果不自己编译，可以直接从官网下载。）
 
-## Zookeeper配置
+## 四、Zookeeper配置
 
 以下分别针对单实例和多机配置说明。
 
@@ -64,9 +67,9 @@ tickTime=2000
 dataDir=./zoodata
 clientPort=2181
 ```
-> *tickTime*: 这个时间作为zookeeper服务端与客户端之间维持心跳的时间间隔，时间单位为：ms（毫秒），每隔tickTime时间就会发送一个心跳。
-> *dataDir*: 这个是zookeeper保存数据的目录，默认情况下，zookeeper也将写数据的日志保存在这个目录下。
-> *clientPort*: 这个作为客户端连接zookeeper服务器的端口。
+> **tickTime**: 这个时间作为zookeeper服务端与客户端之间维持心跳的时间间隔，时间单位为：ms（毫秒），每隔tickTime时间就会发送一个心跳。
+> **dataDir**: 这个是zookeeper保存数据的目录，默认情况下，zookeeper也将写数据的日志保存在这个目录下。
+> **clientPort**: 这个作为客户端连接zookeeper服务器的端口。
 
 ### zookeeper集群配置
 
@@ -79,12 +82,12 @@ server.1=192.168.0.1:2888:3888
 server.2=192.168.0.2:2888:3888
 ```
 
-> *initLimit*: 这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 10x2000=20 秒
-> *syncLimit*: 这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 5x2000=10 秒
-> *server.N=A:P1:P2*, 其中 N 是一个数字，表示这个是第几号服务器；A 是这个服务器的 ip 地址；P1 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；P2 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 A 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。
-> 集群配置最重要的一点：对于集群配置，除了修改zoo.cfg外，还需要在dataDir目录下配置一个名字为'myid'的文件，这个文件里的值就是上个配置A的值，zookeeper 启动时会读取这个文件，拿到里面的数据与 zoo.cfg 里面的配置信息比较从而判断到底是那个server。
+> **initLimit**: 这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 10x2000=20 秒
+> **syncLimit**: 这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 5x2000=10 秒
+> **server.N=A:P1:P2**, 其中 N 是一个数字，表示这个是第几号服务器；A 是这个服务器的 ip 地址；P1 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；P2 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 A 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。
+> **集群配置最重要的一点**：对于集群配置，除了修改zoo.cfg外，还需要在dataDir目录下配置一个名字为'myid'的文件，这个文件里的值就是上个配置A的值，zookeeper 启动时会读取这个文件，拿到里面的数据与 zoo.cfg 里面的配置信息比较从而判断到底是那个server。
 
-## 四、Zookeeper启动
+## 五、Zookeeper启动
 
 zookeeper命令：bin/zkServer.sh {start|start-foreground|stop|restart|status|upgrade|print-cmd}
 
@@ -100,13 +103,27 @@ bin/zkServer.sh start
 bin/zkServer.sh status
 ```
 
+还可以通过bin/zkCli.sh客户端连接到zkserver，进一步检查zkserver更详细的信息：
+
+``` bash
+bin/zkCli.sh
+```
+
+zkCli运行后，会连接上server会进入一个zookeeper的命令行交互界面，zookeeper有自身的交互命令可以参看官方文档，这里不细说。由于zookeeper内部存储数据结构类似目录树的结构，因此zookeeper也有一个'ls'命令，最简单的可以执行'ls /'，查看zookeeper根目录下的信息。
+
 停止zookeeper：
 ``` bash
 bin/zkServer.sh stop
 ```
 
-## 五、参考资料
+**zookeeper两点注意事项：**
+
+> 1、由于Zookeeper是快速失败（fail-fast)的，且遇到任何错误情况，进程均会退出，因此，最好能通过监控程序将Zookeeper管理起来，保证Zookeeper退出后能被自动重启。详情参考[这里](http://zookeeper.apache.org/doc/r3.3.3/zookeeperAdmin.html#sc_supervision)。
+> 2、Zookeeper运行过程中会在dataDir目录下生成很多日志和快照文件，而Zookeeper运行进程并不负责定期清理合并这些文件，导致占用大量磁盘空间，因此，需要通过cron等方式定期清除没用的日志和快照文件。详情参考[这里](http://zookeeper.apache.org/doc/r3.3.3/zookeeperAdmin.html#sc_maintenance)。
+
+## 六、参考资料
 [Apache Zookeeper GettingStart](https://zookeeper.apache.org/doc/trunk/zookeeperStarted.html)
 [分布式服务框架Zookeeper(IBM DevelopWorks中国)](https://www.ibm.com/developerworks/cn/opensource/os-cn-zookeeper/)
+[Storm集群安装部署步骤【详细版】（主要参考Zookeeper部分）](http://www.cnblogs.com/panfeng412/archive/2012/11/30/how-to-install-and-deploy-storm-cluster.html)
 
 （完结）

@@ -65,6 +65,7 @@ hc keybind $Mod-Alt-Shift-p spawn wpp
 hc keybind $Mod-Alt-Shift-a spawn ~/qs/aside.sh
 hc keybind $Mod-Alt-Shift-k spawn kdenlive
 hc keybind $Mod-Alt-Shift-g spawn gimp
+hc keybind $Mod-Alt-Shift-m spawn remarkable
 
 # basic movement
 # focusing clients

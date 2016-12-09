@@ -42,11 +42,13 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
   - links
 
 links:
-  - title: zyb's weibo
+  - title: Contact Me： 389808013@qq.com
+    url: mailto:389808013@qq.com
+  - title: Weibo： weibo.com/zybs
     url: http://weibo.com/zybs
-  - title: zyb's github
+  - title: Github： github.com/zyb
     url: https://github.com/zyb
-  - title: coolshell
+  - title: Coolshell
     url: http://coolshell.cn/
   - title: maupassant-hexo
     url: https://github.com/tufu9441/maupassant-hexo
