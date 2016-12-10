@@ -15,7 +15,7 @@ tags:
 * Jstorm使用的当前稳定版本2.1.1
 * JDK使用1.7
 * archlinux x64操作系统
-* Jstorm依赖zookeeper，参考之前的 [Zookeeper从源码编译及配置部署](/2016/12/06-zookeeper-install.html)
+* Jstorm依赖zookeeper，参考：[Zookeeper从源码编译及配置部署](/2016/12/06-zookeeper-install.html)
 
 ## 二、Jstorm编译
 

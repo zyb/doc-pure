@@ -13,6 +13,7 @@ alias ls='ls --color=auto'
 alias ll='ls -lahF --color=auto'
 alias l='ls -lhF --color=auto'
 alias grep='grep --color=auto'
+alias tarls="~/qs/tarls.sh"
 
 alias protoc-go='PATH=$PATH:~/zdata/gopath/bin protoc'
 alias ffjson='/home/zyb/zdata/gopath/bin/ffjson'
