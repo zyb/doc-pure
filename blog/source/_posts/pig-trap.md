@@ -10,7 +10,7 @@ tags:
 
 ## 环境
 
-* pig使用版本是0.16版本
+* pig使用版本是0.16.0版本
 * jdk版本1.7
 * archlinux x64操作系统
 
@@ -99,3 +99,12 @@ x = foreach xg generate flatten(group), SUM(xf.fa), SUM(xf.fb);
 **描述**：在理解的pig的基本语法和用法后，常用describe，不仅能够解决pig中的问题，而且有助于理解pig处理的机制。
 
 （持续补充中...）
+
+
+## Pig学习过程中参考的资料
+
+[0.16.0官方文档](http://pig.apache.org/docs/r0.16.0/index.html)
+
+《pig编程指南》
+《hadoop权威指南》第三版
+[Pig完全入门](https://www.zybuluo.com/BrandonLin/note/449340)
