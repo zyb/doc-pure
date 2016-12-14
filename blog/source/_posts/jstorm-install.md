@@ -86,6 +86,12 @@ JStorm集群中包含两类节点：主控节点（Nimbus）和工作节点（Su
 
 ![Jstorm框架](/uploads/jstorm-framework.png)
 
+* ZooKeeper：系统的协调者
+* Nimbus：调度器
+* Supervisor：Worker的代理角色，负责Kill掉Worker和运行Worker
+* Worker：一个JVM进程，Task的容器
+* Task：一个线程，任务的执行者
+
 **启动前最重要的一个设置**：
 在/etc/hosts将当前hostname配置为本机IP，确保'hostname -i'命令可以获取到正确的本机IP，而不是127.0.0.1，否则会导致Jstorm获取不到本机IP或者host而启动失败，导致失败的原因是：这个信息在Jstorm向Zookeeper上注册相关信息时的必要信息。而且Jstorm在内部其他多处也需要使用这个信息。
 

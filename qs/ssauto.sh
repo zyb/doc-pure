@@ -2,6 +2,11 @@
 
 ssconf=$(curl "https://api.mianvpn.com/ajax.php?verify=true&mod=getfreess")
 echo $ssconf | python -m json.tool
+
+echo ""
+
+curl --cookie "ss_secret=b858JKNL/1k3cVSeOc/GSvTznXMvqyj4OvehYDuhvRO7ScsKMoqfCJOO1rLjHS0MjhK00xnuQ1clHneFUHZqlDdRamKBamR5/pAmooSHzXb9ofR4AIHmysBb5WS1g8de" https://www.giveyouss.com/ucenter/\?act\=free_plan | grep btn-success | awk -F "'" '{print $2, $4, $6, $8}'
+
 exit
 
 pid=$(ps aux | grep "sslocal -s" | grep -v grep | tail -n 1 | awk '{print $2}')
