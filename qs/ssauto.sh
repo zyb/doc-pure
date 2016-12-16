@@ -6,6 +6,7 @@ echo $ssconf | python -m json.tool
 echo ""
 
 curl --cookie "ss_secret=b858JKNL/1k3cVSeOc/GSvTznXMvqyj4OvehYDuhvRO7ScsKMoqfCJOO1rLjHS0MjhK00xnuQ1clHneFUHZqlDdRamKBamR5/pAmooSHzXb9ofR4AIHmysBb5WS1g8de" https://www.giveyouss.com/ucenter/\?act\=free_plan | grep btn-success | awk -F "'" '{print $2, $4, $6, $8}'
+curl --cookie "ss_secret=b858JKNL/1k3cVSeOc/GSvTznXMvqyj4OvehYDuhvRO7ScsKMoqfCJOO1rLjHS0MjhK00xnuQ1clHneFUHZqlDdRamKBamR5/pAmooSHzXb9ofR4AIHmysBb5WS1g8de" https://www.giveyouss.com/ucenter/\?act\=free_plan | grep "免费节点密码将在"
 
 exit
 
