@@ -1,0 +1,9 @@
+{
+	"server":"45.62.117.44",
+	"server_port":443,
+	"password":"OGI0ZWIzYT",
+	"method":"aes-256-cfb",
+	"local_address":"127.0.0.1",
+	"local_port":"12250",
+	"timeout":1000
+}

@@ -1,3 +1,3 @@
 #! /bin/bash
 
-/home/zyb/data/develop/android-studio/bin/studio.sh
+/home/zyb/datac/develop/android-studio/bin/studio.sh

@@ -3,6 +3,13 @@
 # cmd
 # ps -Tfp PID
 
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;38;5;208m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[04;38;5;111m'
+
 export JAVA_HOME=/usr/lib/jvm/default
 export JRE_HOME=$JAVA_HOME/jre
 export GOROOT=/usr/lib/go
@@ -23,6 +30,8 @@ alias jch7='sudo archlinux-java set java-7-jdk'
 alias jch8='sudo archlinux-java set java-8-jdk'
 
 #### self define
+
+alias mvnp='function __mymvnproxy() {if [[ "$1" == "" || "$2" == "" ]]; then echo "at least need 2 params"; return 1; fi; MAVEN_OPTS="$MAVEN_OPTS -DsocksProxyHost=127.0.0.1 -DsocksProxyPort=$1" && shift && echo "MAVEN_OPTS=$MAVEN_OPTS mvn $@" && mvn $@}; __mymvnproxy'
 
 alias mvnsrc='mvn dependency:sources -DdownloadSources=true -DdownloadJavadocs=true'
 alias mvnflume='mvn clean install -DskipTests -DdownloadSources=true -Drat.numUnapprovedLicenses=1000'

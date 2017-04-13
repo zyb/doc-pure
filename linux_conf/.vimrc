@@ -8,7 +8,9 @@ set ffs=unix,dos,mac	" Default to Unix LF line endings
 set history=4096	" Number of things to remember in history.
 set cursorline	" 光标高亮显示
 set cursorcolumn	" 光标垂直高亮
+if has('mouse')
 " set mouse=a	"支持鼠标滚轮,但会导致中键的粘贴作用无效
+endif
 " set whichwrap=b,s,<,>,[,] "让退格，空格，上下箭头遇到行首行尾时自动移到下一行（包括insert模式）
 autocmd! bufwritepost .vimrc source ~/.vimrc " auto reload vimrc when editing it
 set paste

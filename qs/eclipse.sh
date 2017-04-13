@@ -1,3 +1,3 @@
 #! /bin/bash
 
-/home/zyb/data/develop/eclipse/eclipse
+/home/zyb/datac/develop/eclipse/eclipse
