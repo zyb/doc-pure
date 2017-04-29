@@ -33,7 +33,8 @@ alias jch8='sudo archlinux-java set java-8-jdk'
 
 alias mvnp='function __mymvnproxy() {if [[ "$1" == "" || "$2" == "" ]]; then echo "at least need 2 params"; return 1; fi; MAVEN_OPTS="$MAVEN_OPTS -DsocksProxyHost=127.0.0.1 -DsocksProxyPort=$1" && shift && echo "MAVEN_OPTS=$MAVEN_OPTS mvn $@" && mvn $@}; __mymvnproxy'
 
-alias mvnsrc='mvn dependency:sources -DdownloadSources=true -DdownloadJavadocs=true'
+#alias mvnsrc='mvn dependency:sources -DdownloadSources=true -DdownloadJavadocs=true'
+alias mvnsrc='mvn dependency:sources -DdownloadSources=true'
 alias mvnflume='mvn clean install -DskipTests -DdownloadSources=true -Drat.numUnapprovedLicenses=1000'
 
 alias cdhmgr='docker run --hostname=quickstart.cloudera --privileged=true -t -i --rm cloudera/quickstart /home/cloudera/cloudera-manager --express --force'

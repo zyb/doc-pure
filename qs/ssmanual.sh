@@ -2,25 +2,16 @@
 
 id="$1"
 
-
-echo -e "\
-url: http://www.apache.wiki/display/Index/SS \n\
-服务器 : jp.kingss.me \n\
-服务器端口 : 20881 \n\
-密码 : ApacheCN_007 \n\
-加密方式 : aes-256-cfb \n\
-代理端口 : 1080 \n\
- 
-默认为日本东京节点，如有需要，可以手动换成以下节点！~ \n\
-东京 : jp.kingss.me \n\
-新加坡 : sf1.kingss.me \n\
-美国 : sf2.kingss.me \n\
-加拿大 : ca.kingss.me \n\
-英国 : uk.kingss.me \n\
-"
-
-
+echo "url: http://www.apache.wiki/display/Index/SS"
+echo "jp.kingss.me 20881 ApacheCN_007 aes-256-cfb"
+echo "sf1.kingss.me 20881 ApacheCN_007 aes-256-cfb"
+echo "sf2.kingss.me 20881 ApacheCN_007 aes-256-cfb"
+echo "ca.kingss.me 20881 ApacheCN_007 aes-256-cfb"
+echo "uk.kingss.me 20881 ApacheCN_007 aes-256-cfb"
+echo ""
 echo "144.168.62.206 7739 zA1h8jCBoO aes-256-cfb"
+echo "67.21.78.225 678 ntdtv.com chacha20"
+echo "98.142.143.181 2333 MDM4OGQxMz aes-256-cfb"
 
 while true; do
 
