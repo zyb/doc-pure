@@ -12,6 +12,8 @@ echo ""
 echo "144.168.62.206 7739 zA1h8jCBoO aes-256-cfb"
 echo "67.21.78.225 678 ntdtv.com chacha20"
 echo "98.142.143.181 2333 MDM4OGQxMz aes-256-cfb"
+echo "198.46.242.216 443 +hAxN=OFj8dD chacha20"
+echo "142.4.124.156 15185 VaPzwK aes-256-cfb"
 
 while true; do
 
