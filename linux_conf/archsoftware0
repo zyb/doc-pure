@@ -1,0 +1,56 @@
+1. i3 i3-status conky
+2. xorg
+3. vim
+4. zsh
+5. xterm
+6. xrandr
+7. git
+8. git proxy: http.https://github.com.proxy=socks5://127.0.0.1:12250
+9. sslocal
+10. pkgfile
+11. mlocate
+12. android-sdk
+12. android ide
+14. intellj idea ide
+15. chrome
+16. firefox
+17. java jdk
+18. lantern
+19. smplayer
+20. virtualbox
+21. note
+22. rdesktop
+23. ssh
+24. shutter
+25. fcitx
+26. thunderbird
+27. .Trash
+28. xmind
+29. oh-my-zsh
+30. codeblocks
+31. genymobile
+32. gpicview
+33. office
+34. liteide
+35. ss-qt5
+36. pcmanfm
+37. Typora
+38. netstat mtrace
+39. zathura
+40. xarchiver
+41. alsa mousepad 
+42. gitg
+43. aria2 wget axel
+44. netease-cloud-music
+45. maven
+46. networkmanager nm-applet
+47. feh
+
+config: 
+1. i3 conky
+2. vimrc
+3. xinitrc .Xresources
+4. .zprofile .zshrc .zybshellrc
+5. qs
+6. background
+7. jdk
