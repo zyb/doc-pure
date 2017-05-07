@@ -49,9 +49,11 @@ lnconf ~/.zybshellrc $confpath/.zybshellrc
 #lnconf ~/.bash_profile $confpath/.bash_profile
 lnconf ~/.xinitrc $confpath/.xinitrc
 lnconf ~/.Xresources $confpath/.Xresources
-lnconf ~/.config/herbstluftwm/autostart $confpath/hc/autostart
-lnconf ~/.config/herbstluftwm/panel2.sh $confpath/hc/panel2.sh
-lnconf ~/.config/herbstluftwm/conkyrc $confpath/hc/conkyrc
+#lnconf ~/.config/herbstluftwm/autostart $confpath/hc/autostart
+#lnconf ~/.config/herbstluftwm/panel2.sh $confpath/hc/panel2.sh
+#lnconf ~/.config/herbstluftwm/conkyrc $confpath/hc/conkyrc
+lnconf ~/.config/i3/config $confpath/i3/config
+lnconf ~/.config/i3/conkyrc $confpath/i3/conkyrc
 lnconf ~/bg.jpg $confpath/infan_ASTA-201310_01_10.jpg
 lnconf ~/qs $docpurepath/qs
 
@@ -63,8 +65,6 @@ cd ~/.vim/colors && wget https://raw.githubusercontent.com/tomasr/molokai/master
 
 echo "lucene code style: https://raw.githubusercontent.com/twitter/mahout/master/buildtools/Eclipse-Lucene-Codestyle.xml"
 
-
-echo "solarized colors: cd ~/.vim/colors && wget https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim"
 if [ 0 -eq 1 ]; then
 	ln -s /home/zyb/d/git-warehouse/gows/ ~/gows
 	ln -s /home/zyb/d/git-warehouse/gopath/ ~/gopath
