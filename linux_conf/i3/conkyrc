@@ -1,74 +1,77 @@
-### Conky configuration file
-## Output is printed to the console -> i3bar
-# Modified: 27.11.2011 - mseed : http://www.fastlinux.eu
-# Modified: 10.09.2012 - Sagar Behere
-## No output to X <yes/no>
-out_to_x no
-## Create own window to draw <yes/no>
-own_window no
-## Print everything to console?
-out_to_console yes
-## Use double buffering (reduces flicker, not needed for console output)
-double_buffer no
-## Set to yes if you want Conky to be forked in the background
-background no
-## Update interval in seconds
-update_interval 1.0
-## This is the number of times Conky will update before quitting.
-## Set to zero to run forever.
-total_run_times 0
-## Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
-short_units yes
-## How strict should if_up be when testing an interface for being up?
-## The value is one of up, link or address, to check for the interface
-## being solely up, being up and having link or being up, having link
-## and an assigned IP address.
-if_up_strictness address
-## Add spaces to keep things from moving about?  This only affects certain objects.
-## use_spacer should have an argument of left, right, or none
-use_spacer left
-## Force UTF8? note that UTF8 support required XFT
-use_xft yes
-xftfont profont:size=8
-override_utf8_locale yes
-## number of cpu samples to average
-## set to 1 to disable averaging
-cpu_avg_samples 2
+conky.config = {
+-- Conky configuration file
+-- Output is printed to the console -> i3bar
+-- Modified: 27.11.2011 - mseed : http://www.fastlinux.eu
+-- Modified: 10.09.2012 - Sagar Behere
+-- No output to X <yes/no>
+	out_to_x = false,
+-- Create own window to draw <yes/no>
+	own_window = false,
+-- Print everything to console?
+	out_to_console = true,
+-- Use double buffering (reduces flicker, not needed for console output)
+	double_buffer = false,
+-- Set to yes if you want Conky to be forked in the background
+	background = false,
+-- Update interval in seconds
+	update_interval = 1.0,
+-- This is the number of times Conky will update before quitting.
+-- Set to zero to run forever.
+	total_run_times = 0,
+-- Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
+	short_units = true,
+-- How strict should if_up be when testing an interface for being up?
+-- The value is one of up, link or address, to check for the interface
+-- being solely up, being up and having link or being up, having link
+-- and an assigned IP address.
+	if_up_strictness = 'address',
+-- Add spaces to keep things from moving about?  This only affects certain objects.
+-- use_spacer should have an argument of left, right, or none
+	use_spacer = 'left',
+-- Force UTF8? note that UTF8 support required XFT
+	use_xft = true,
+	font = 'profont:size=8',
+	override_utf8_locale = true,
+-- number of cpu samples to average
+-- set to 1 to disable averaging
+	cpu_avg_samples = 2,
 
-# Use KiB/MiB/... instead of just bytes
-format_human_readable yes
-# Print used memory with buffers
-no_buffers yes
-# Display k, G, ... instead of kiB, GiB, ...
-short_units yes
+-- Use KiB/MiB/... instead of just bytes
+	format_human_readable = true,
+-- Print used memory with buffers
+	no_buffers = true,
+-- Display k, G, ... instead of kiB, GiB, ...
+	short_units = true,
 
-default_color d0d0d0
+--default_color d0d0d0
 
-color0 d0d0d0
-#color1 afdf87
-color1 green
-color2 red
-color3 FF7744
-color4 yellow
+	color0 = '#d0d0d0',
+--color1 afdf87
+	color1 = 'green',
+	color2 = 'red',
+	color3 = '#FF7744',
+	color4 = 'yellow',
 
-alignment right
-## Sensors examples
-# Top Process: ${top name 1}
-# Root: {fs_used /}/${fs_size /} /home ${fs_free /home} /${fs_size /home}
-# Load: ${loadavg 1} ${loadavg 2} ${loadavg 3}
-# Load: $loadavg
-# Swap: ${swap}/${swapmax} (${swapperc}%)
-# Processes: ${running_processes} / ${processes}
-# CPU: $cpu%
-# HDD: $diskio_read :Read $diskio_write :Write
-# Temp: Core0: ${exec sensors | awk '/Core 0/ {print $3}'} Core1: ${exec sensors | awk '/Core 1/ {print $3}'}
-# Freq: ${freq cpu0}Mhz
-# Uptime: $uptime
-# Kernel:$kernel on $machine
-# Name: $nodename - $sysname
-# Battery: ${battery_percent BAT0}%
-## Stuff after 'TEXT' will be formatted on screen
-TEXT
+	alignment = 'top_right',
+-- Sensors examples
+-- Top Process: ${top name 1}
+-- Root: {fs_used /}/${fs_size /} /home ${fs_free /home} /${fs_size /home}
+-- Load: ${loadavg 1} ${loadavg 2} ${loadavg 3}
+-- Load: $loadavg
+-- Swap: ${swap}/${swapmax} (${swapperc}%)
+-- Processes: ${running_processes} / ${processes}
+-- CPU: $cpu%
+-- HDD: $diskio_read :Read $diskio_write :Write
+-- Temp: Core0: ${exec sensors | awk '/Core 0/ {print $3}'} Core1: ${exec sensors | awk '/Core 1/ {print $3}'}
+-- Freq: ${freq cpu0}Mhz
+-- Uptime: $uptime
+-- Kernel:$kernel on $machine
+-- Name: $nodename - $sysname
+-- Battery: ${battery_percent BAT0}%
+-- Stuff after 'TEXT' will be formatted on screen
+};
+
+conky.text = [[
 ${top name 1}\
 | ${color1}cpu ${color0}${cpubar} \
 | ${color1}mem ${color0}${membar} $memperc%\
@@ -105,3 +108,4 @@ ${endif}\
 ${endif} \
 | ${color1}vol ${color0}${exec amixer get Speaker | tail -n 1 | awk -F'\\[|\\]' '{print $6}'} ${exec amixer -c 0 -- get Master | tail -1 | awk -F'\\[|\\]' '{print $2}'} \
 | ${color1}${color0}${time %Y.%m.%d %a} ${color1}${time %H:%M:%S}\
+]];

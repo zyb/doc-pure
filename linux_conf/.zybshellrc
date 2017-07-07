@@ -13,7 +13,7 @@ export LESS_TERMCAP_us=$'\E[04;38;5;111m'
 export JAVA_HOME=/usr/lib/jvm/default
 export JRE_HOME=$JAVA_HOME/jre
 export GOROOT=/usr/lib/go
-export GOPATH=/home/zyb/zdata/gopath:/home/zyb/zdata/gows:/home/zyb/zdata/goys:/mnt/c/Users/zyb/data/project/gows
+export GOPATH=/home/zyb/data/proj/go/gopath:/home/zyb/data/proj/go/gows
 export LITEIDE_HOME=/usr/local/liteide
 
 alias ls='ls --color=auto'
@@ -21,6 +21,8 @@ alias ll='ls -lahF --color=auto'
 alias l='ls -lhF --color=auto'
 alias grep='grep --color=auto'
 alias tarls="~/qs/tarls.sh"
+
+alias cnpm='npm --registry=https://registry.npm.taobao.org --cache=~/.npm/.cache/cnpm --disturl=https://npm.taobao.org/dist --userconfig=~/.cnpmrc'
 
 alias protoc-go='PATH=$PATH:~/zdata/gopath/bin protoc'
 alias ffjson='/home/zyb/zdata/gopath/bin/ffjson'
@@ -31,7 +33,7 @@ alias jch8='sudo archlinux-java set java-8-jdk'
 
 #### self define
 
-alias mvnp='function __mymvnproxy() {if [[ "$1" == "" || "$2" == "" ]]; then echo "at least need 2 params"; return 1; fi; MAVEN_OPTS="$MAVEN_OPTS -DsocksProxyHost=127.0.0.1 -DsocksProxyPort=$1" && shift && echo "MAVEN_OPTS=$MAVEN_OPTS mvn $@" && mvn $@}; __mymvnproxy'
+alias mvnp='function __mymvnproxy() {if [[ "$1" == "" || "$2" == "" ]]; then echo "at least need 2 params"; return 1; fi; local MAVEN_OPTS="$MAVEN_OPTS -DsocksProxyHost=127.0.0.1 -DsocksProxyPort=$1" && shift && echo "MAVEN_OPTS=$MAVEN_OPTS mvn $@" && mvn $@}; __mymvnproxy'
 
 #alias mvnsrc='mvn dependency:sources -DdownloadSources=true -DdownloadJavadocs=true'
 alias mvnsrc='mvn dependency:sources -DdownloadSources=true'
@@ -42,7 +44,7 @@ alias cdh='docker run --hostname=quickstart.cloudera --privileged=true -t -i --r
 alias easyjson='/home/zyb/zdata/gopath/bin/easyjson'
 
 # PATH=$PATH:/usr/lib/go/bin:/home/zyb/zdata/gopath/bin go-torch --time=15 --file "torch.svg" --url http://127.0.0.1:25250
-alias flameg='function __myflameg() {if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; go-torch --time=$2 --file "torch.svg" --url http://$1}; PATH=$PATH:/usr/lib/go/bin:/home/zyb/zdata/gopath/bin:/home/zyb/data/github/FlameGraph __myflameg'
+alias flameg='function __myflameg() {if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; go-torch --time=$2 --file "torch.svg" --url http://$1}; local PATH=$PATH:/usr/lib/go/bin:/home/zyb/zdata/gopath/bin:/home/zyb/data/github/FlameGraph __myflameg'
 alias gosvg='function __mygotoolsvg() { if [[ "$1" == "" || "$2" == "" ]]; then echo "need 2 params"; return 1; fi; go tool pprof -svg -seconds $2 http://$1/debug/pprof/profile > src.svg}; __mygotoolsvg'
 
 alias myps='function __mypsprint(){if [[ "$1" == "" ]]; then echo "need 1 param"; return 1; fi; ps -e -o "pid,comm,args,pcpu,rsz,vsz,stime,user" | grep $1 | sort -nrk5}; __mypsprint'

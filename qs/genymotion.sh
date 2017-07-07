@@ -11,4 +11,5 @@ elif [ "" != "$1" ]; then
 	exit 0
 fi
 
-setsid ~/datac/software/genymotion/genymotion/player --vm-name "p7.0" > /dev/null 2>&1 &
+#setsid ~/datac/software/genymotion/genymotion/player --vm-name "t4.4.4" > /dev/null 2>&1 &
+setsid genymotion-player --vm-name "t4.4.4" > /dev/null 2>&1 &

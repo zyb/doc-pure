@@ -1,4 +1,3 @@
-#! /bin/bash
+#!/bin/bash
 
-WINEARCH=win32 WINEPREFIX=$HOME/.wine32 wine $HOME/.wine32/drive_c/Program\ Files/Tencent/TM/Bin/TM.exe
-
+env WINEPREFIX="/home/zyb/data/software/tm2013/tm" wine C://Program\ Files//Tencent//TM//Bin//TM.exe

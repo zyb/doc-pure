@@ -1,0 +1,21 @@
+https://www.boll.me/archives/599
+
+相关说明:
+
+SecureCRT推出Linux的版本也是让我们兴奋不已, 它也是使用中最好用的远程连接工具, 不过因为商业性质出现破解版本的SecureCRT, 因为程序的特殊性, 破解版本的SecureCRT或远程连接工具我都是使用官方原版, 记得前两年出现的PuTTY中文版带后后门事件也是让我记忆深刻.
+官方版本默认只是30天的测试使用时间, 早期大家的30天循环方法的是删除家目录下”.vandyke/Config/SecureCRT_eval.lic”文件即可.
+但是最近几个版本, 好像是7.0.1还是7.0.2这个方法已经不能使用了. 后来strace下程序, 总感觉跟它的时间有关系, 后来发现新的版本是使用lic文件加上主程序的ctime时间来计算它的过期的.
+测试了下果然是可以.
+
+操作系统: Linux Ubuntu
+相关软件: SecureCRT
+
+Linux MacOSX SecureCRT 完全破解
+
+操作过程:
+
+删除家目录的lic文件:
+rm -f ~/.vandyke/Config/*.lic
+
+修改主程序的ctime:
+sudo touch /usr/local/bin/SecureCRT
