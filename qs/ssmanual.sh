@@ -3,33 +3,38 @@
 id="$1"
 
 echo "url: http://www.apache.wiki/display/Index/SS"
-echo "jp.kingss.me 21006 ApacheCN_110 aes-256-cfb"
-echo "sf1.kingss.me 21006 ApacheCN_110 aes-256-cfb"
-echo "sf2.kingss.me 21006 ApacheCN_110 aes-256-cfb"
-echo "ca.kingss.me 21006 ApacheCN_110 aes-256-cfb"
-echo "uk.kingss.me 21006 ApacheCN_110 aes-256-cfb"
-echo ""
-echo "216.189.158.147 52940 doub.io52940 chacha20"
-echo "64.137.243.186 52940 doub.io52940 chacha20"
-echo "64.137.208.113 52940 doub.io52940 chacha20"
-echo "45.62.245.70 52940 doub.io52940 chacha20"
-echo "104.160.173.141 52940 doub.io52940 chacha20"
-echo ""
-echo "104.224.161.182 666 cccwszsf chacha20-ietf"
-echo "138.128.212.173 1026 RJTPLd rc4-md5"
-echo ""
-echo "104.223.3.138 6376 123456.* aes-256-cfb"
-echo ""
-echo "144.168.62.206 7739 zA1h8jCBoO aes-256-cfb"
+echo "jp.kingss.me 21162 ApacheCN_118 aes-256-cfb"
+echo "sf1.kingss.me 21162 ApacheCN_118 aes-256-cfb"
+echo "sf2.kingss.me 21162 ApacheCN_118 aes-256-cfb"
+echo "ca.kingss.me 21162 ApacheCN_118 aes-256-cfb"
+echo "uk.kingss.me 21162 ApacheCN_118 aes-256-cfb"
 echo "------------------------------------------------"
 
-info="144.168.62.206 7739 zA1h8jCBoO aes-256-cfb"
-info="104.223.3.138 6376 123456.* aes-256-cfb"
 info="138.128.212.173 1026 RJTPLd rc4-md5"
+echo $info
 info="107.170.207.19 4321 epix4321epix4321 chacha20"
+echo $info
 info="45.55.114.107 4321 epix4321epix4321 chacha20"
+echo $info
+info="45.55.114.228 4321 epix4321epix4321 chacha20"
+echo $info
+info="174.138.108.20 4321 epix4321epix4321 chacha20"
+echo $info
+info="45.55.114.228 4321 epix4321epix4321 chacha20"
+echo $info
+info="92.223.73.77 2333 yqs123456789 aes-128-ctr"
+echo "$info"
+info="104.160.181.24 443 Zhang123share!! aes-256-cfb"
+echo "$info"
+info="104.223.65.199 1041 houxudong rc4-md5"
+echo "$info"
+#info="sf2.kingss.me 21162 ApacheCN_118 aes-256-cfb"
+#echo $info
 
-#cat Desktop/ss.htm | grep "text=ss://" | awk -F'text=ss://' '{print $2}' | awk -F'"' '{"echo "$1" | base64 -d && echo " | getline r; print r;}' | awk -F '[:@]' '{print "curl http://freeapi.ipip.net/"$3" && echo \"  "$3" "$4" "$2" "$1"\" && sleep 1"}' | bash
+echo "use: $info"
+echo "------------------------------------------------"
+
+#cat Downloads/ss.htm | grep "=ss://" | awk -F"=ss://" '{print $2}' | awk -F\" '{print "echo -n " $1 " | base64 -d 2>/dev/null | xargs echo"}' | bash | awk -F":|@" '{print "curl http://freeapi.ipip.net/"$3" && echo \"  "$3" "$4" "$2" "$1"\" && sleep 1"}' | bash
 
 function ssconn() {
 
@@ -58,7 +63,7 @@ if [ ! -d /tmp/sstmp ]; then
   mkdir /tmp/sstmp
 fi
 tmpfile=$(mktemp /tmp/sstmp/sslog.XXXXXXXXXXXXX)
-setsid sslocal -s $ip -p $port -k $pw -m $md -b 127.0.0.1 -l 12250 -v > $tmpfile 2>&1 &
+setsid sslocal -s $ip -p $port -k $pw -m $md -b 0.0.0.0 -l 12250 -v > $tmpfile 2>&1 &
 sleep 0.5
 exec_pid=$(ps aux | grep sslocal | grep -v grep | awk '{print $2}')
 ps aux | grep sslocal

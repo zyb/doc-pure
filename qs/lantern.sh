@@ -1,20 +1,17 @@
 #! /bin/bash
 
-if [ "" = "$1" ]; then
-	default="/home/zyb/data/github/lantern/lantern_linux_amd64"
-	lpath="$default"
-else
-	lpath="$1"
+nmap 127.0.0.1 -p 12251 | grep open
+port_exist=$(echo $?)
+if [ "0" == "$port_exist" ]; then
+  echo "lantern port already used."
+  exit
 fi
 
-exec_pid=$(pidof $lpath)
-if [ "" = "$exec_pid" ]; then
-	mkdir -p /tmp/lantern
-	tmpfile=$(mktemp /tmp/lantern/lantern.log.XXXXXXXXXXXXX)
-	setsid $lpath --addr 127.0.0.1:12258 > $tmpfile 2>&1 &
-	sleep 0.5
-	exec_pid=$(pidof $lpath)
-	echo "start : $exec_pid [$lpath], log file: $tmpfile"
-else
-	echo "'$lpath' already run: $exec_pid"
+if [ ! -d /tmp/lanterntmp ]; then
+  mkdir /tmp/lanterntmp
 fi
+tmpfile=$(mktemp /tmp/lanterntmp/log.XXXXXXXXXXXXX)
+
+setsid lantern -addr 127.0.0.1:12251 -uiaddr 127.0.0.1:12259 > $tmpfile 2>&1 &
+ps aux | grep "lantern " | grep -v grep
+echo "lantern log: $tmpfile"
