@@ -3,6 +3,7 @@
 # 针对ssr解码
 # xxxx | awk '{print "echo -n " $1 " | base64 -d 2>/dev/null | xargs echo"}' | bash | awk -F"[:/]" '{print "echo -n " $6 " | base64 -d 2>/dev/null | xargs -I {} echo " $1,$2,"{}",$4}' | bash | awk '{print "curl http://freeapi.ipip.net/"$1" && echo \"  "$1" "$2" "$3" "$4"\" && sleep 1"}' | bash
 
+#ssexe="sslocal"
 ssexe="ss-local"
 sslocalport=12250
 sslocalip="127.0.0.1"
@@ -19,19 +20,11 @@ unset info
 
 
 echo "------------------------------------------------"
-info="64.137.208.187 2333 doub.io aes-128-ctr"
+#info=`curl -k https://freessr.win/ | egrep -A 4 --color=auto "^\s*<div class=" | grep -A 3 "服务器地址" | sed "s/<\/h4>//g" | awk -F: '{print $2}' | tr "\n" " "`
+#echo $info
+#echo "--------------"
+info="64.137.201.248 1213 doub.io/sszhfx/*doub.bid/sszhfx/*6125 chacha20"
 echo $info
-info="192.154.197.80 443 uNDERgROUND aes-128-ctr"
-echo $info
-echo "--------------"
-info="64.137.208.187 2333 doub.io aes-128-ctr"
-echo $info
-info="45.32.69.44 1028 M4RiH9 chacha20"
-echo $info
-echo "--------------"
-info="67.21.79.9 20306 https://doub.io/sszhfx/*https://doub.bid/sszhfx/*22800 chacha20"
-echo $info
-
 echo "------------------------------------------------"
 echo "use: $info"
 
