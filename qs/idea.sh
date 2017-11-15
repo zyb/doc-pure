@@ -1,3 +1,3 @@
 #! /bin/bash
 
-/home/zyb/data/software/idea-IU-171.4694.70/bin/idea.sh
+/home/zyb/data/software/idea-IU-172.4343.14/bin/idea.sh

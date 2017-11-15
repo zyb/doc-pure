@@ -22,8 +22,23 @@ unset info
 echo "------------------------------------------------"
 #info=`curl -k https://freessr.win/ | egrep -A 4 --color=auto "^\s*<div class=" | grep -A 3 "服务器地址" | sed "s/<\/h4>//g" | awk -F: '{print $2}' | tr "\n" " "`
 #echo $info
-#echo "--------------"
-info="64.137.201.248 1213 doub.io/sszhfx/*doub.bid/sszhfx/*6125 chacha20"
+#echo "-------------------"
+
+#ss=$(curl -POST https://cli.im/Api/Browser/deqr -d 'data=https%3A%2F%2Fen.ss8.fun%2Fimages%2Fserver03.png' | jq -r '.data.RawData' | awk -F'ss://' '{print $2}')
+#info=$(echo -n $ss | base64 -d 2>/dev/null | awk -F"[:@]" '{print $3, $4, $2, $1}')
+#echo $info
+#echo "-------------------"
+
+#ss=$(curl -POST https://cli.im/Api/Browser/deqr -d 'data=https%3A%2F%2Fen.ss8.fun%2Fimages%2Fserver02.png' | jq -r '.data.RawData' | awk -F'ss://' '{print $2}')
+#info=$(echo -n $ss | base64 -d 2>/dev/null | awk -F"[:@]" '{print $3, $4, $2, $1}')
+#echo $info
+#echo "-------------------"
+
+#info=$(curl -POST https://cli.im/Api/Browser/deqr -d 'data=https%3A%2F%2Fen.ss8.fun%2Fimages%2Fserver01.png' | jq -r '.data.RawData' | awk -F'ss://' '{print $2}' | xargs echo -n  | base64 -d 2>/dev/null | awk -F"[:@]" '{print $3, $4, $2, $1}')
+#echo $info
+#echo "-------------------"
+info="138.68.236.77 443 google.com chacha20-ietf-poly1305"
+#info="64.137.201.248 1572 doub.io/sszhfx/*doub.bid/sszhfx/*1392 chacha20"
 echo $info
 echo "------------------------------------------------"
 echo "use: $info"
@@ -64,13 +79,16 @@ sleep 1
 }
 
 
+isFirst="true"
 while true; do
-	ssip=$(echo $info | cut -d" " -f 1)
-	ssport=$(echo $info | cut -d" " -f 2)
-	sspw=$(echo $info | cut -d" " -f 3)
-	ssmd=$(echo $info | cut -d" " -f 4)
+  if [[ "" != "$info" ]]; then
+	  ssip=$(echo $info | cut -d" " -f 1)
+	  ssport=$(echo $info | cut -d" " -f 2)
+	  sspw=$(echo $info | cut -d" " -f 3)
+	  ssmd=$(echo $info | cut -d" " -f 4)
 
-	ssconn
+	  ssconn
+  fi
 
 	echo "------------------------------------------------"
 	printf "info:(ip port pw md) "
