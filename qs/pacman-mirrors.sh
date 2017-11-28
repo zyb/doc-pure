@@ -1,3 +1,3 @@
 #! /bin/bash
 
-pacman-mirrors -gb stable -c China
+pacman-mirrors -b stable -c China

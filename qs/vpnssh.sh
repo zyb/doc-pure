@@ -17,6 +17,8 @@ vpndir=$shell_dir/vpnssh
 vpnaccount=$vpndir/account
 vpndocker=vpnssh
 port=12253
+currips=($(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v 172.17.0.|grep -v inet6|awk '{print $2}'|tr -d "addr:"))
+currip=${currips[0]}
 
 systemctl status docker | grep running
 ret=$(echo $?)
@@ -34,6 +36,6 @@ elif [[ "run" == "$param1" ]]; then
     exit 1
   fi
 
-  sudo docker run -it --rm --cap-add=NET_ADMIN -p $port:25259 -v $vpndir/$param2.ovpn:/openvpn.ovpn -v $vpnaccount:/account $vpndocker
+  sudo docker run -it --rm --cap-add=NET_ADMIN --dns 8.8.8.8 -p 127.0.0.1:$port:25259 -v $vpndir/$param2.ovpn:/openvpn.ovpn -v $vpnaccount:/account $vpndocker
 fi
 
